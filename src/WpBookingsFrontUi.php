@@ -40,7 +40,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
          * @todo: remove it when composite container is ready
          */
         return $this->_createContainer([
-            'bookings_front_ui' => function () {
+            'wp_bookings_front_ui' => function () {
                 return $this;
             }
         ]);
