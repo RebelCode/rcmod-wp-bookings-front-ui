@@ -1,5 +1,5 @@
 {
-    "name": "rebelcode/wp-bookings-front-ui",
+    "name": "rebelcode/rcmod-wp-bookings-front-ui",
     "description": "A RebelCode module that provides UI for booking appointments",
     "type": "rc-module",
     "license": "GPL-3.0",
