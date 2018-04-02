@@ -36,7 +36,14 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function setup()
     {
-        return $this->_createContainer();
+        /*
+         * @todo: remove it when composite container is ready
+         */
+        return $this->_createContainer([
+            'bookings_front_ui' => function () {
+                return $this;
+            }
+        ]);
     }
 
     /**
@@ -60,8 +67,6 @@ class WpBookingsFrontUi extends AbstractBaseModule
 
         static::$bookingWidgetId++;
 
-        $this->_enqueueAssets($params);
-
         return $bookingHolder;
     }
 
@@ -69,10 +74,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
      * Add WP styles and scripts enqueuing.
      *
      * @since [*next-version*]
-     *
-     * @param array $params
      */
-    protected function _enqueueAssets($params = [])
+    public function enqueueAssets()
     {
         wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $this->_getConfig()['script'], [], false, true);
         wp_enqueue_style(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $this->_getConfig()['style']);
