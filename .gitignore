@@ -3,4 +3,5 @@
 /test/coverage/
 /test/log/
 /build/
+/node_modules/
 /.idea/

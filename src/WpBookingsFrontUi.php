@@ -77,6 +77,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function enqueueAssets()
     {
+        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY . '-main', $this->_getConfig()['main_script'], [], false, true);
         wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $this->_getConfig()['script'], [], false, true);
         wp_enqueue_style(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $this->_getConfig()['style']);
     }

@@ -1,0 +1,14 @@
+{
+  "name": "wp-bookings-front-ui",
+  "version": "0.1.0",
+  "description": "Bookings front-end order wizard",
+  "scripts": {
+    "watch": "./node_modules/.bin/webpack --watch",
+    "build": "./node_modules/.bin/webpack -p"
+  },
+  "devDependencies": {
+    "bookings-client": "git+https://RomeroW:2RQsDv2s7afGrYX4zs8E@bitbucket.org/rebelcode/bookings-client.git#2ab8740bcb5a1412a00f27ff469afb1d16c71991",
+    "webpack": "^3.11.0"
+  },
+  "author": "RebelCode"
+}
