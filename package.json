@@ -4,7 +4,8 @@
   "description": "Bookings front-end order wizard",
   "scripts": {
     "watch": "./node_modules/.bin/webpack --watch",
-    "build": "./node_modules/.bin/webpack -p"
+    "build": "./node_modules/.bin/webpack -p",
+    "postinstall": "cp ./node_modules/bookings-client/dist/static/css/app.css ./dist/app.css && cp ./node_modules/bookings-client/dist/static/js/app.js ./dist/app.js"
   },
   "devDependencies": {
     "bookings-client": "git+https://RomeroW:2RQsDv2s7afGrYX4zs8E@bitbucket.org/rebelcode/bookings-client.git#2ab8740bcb5a1412a00f27ff469afb1d16c71991",

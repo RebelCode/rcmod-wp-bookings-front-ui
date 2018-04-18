@@ -2,6 +2,6 @@
 /nbproject/private/
 /test/coverage/
 /test/log/
-/build/
+/dist/app.*
 /node_modules/
 /.idea/
