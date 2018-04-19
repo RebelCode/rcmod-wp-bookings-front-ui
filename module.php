@@ -10,6 +10,11 @@ define('RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY', 'wp_bookings_front_ui');
 return function(ContainerInterface $c) {
     return new WpBookingsFrontUi(
         RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY,
-        $c->get('container_factory')
+        [],
+        $c->get('config_factory'),
+        $c->get('container_factory'),
+        $c->get('composite_container_factory'),
+        $c->get('event_manager'),
+        $c->get('event_factory')
     );
 };

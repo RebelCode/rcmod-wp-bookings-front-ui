@@ -2,31 +2,44 @@
 
 namespace RebelCode\Bookings\WordPress\Module;
 
+use Dhii\Data\Container\ContainerFactoryInterface;
+use Dhii\Event\EventFactoryInterface;
 use Psr\Container\ContainerInterface;
+use Psr\EventManager\EventManagerInterface;
 use RebelCode\Modular\Module\AbstractBaseModule;
+use Dhii\Util\String\StringableInterface as Stringable;
 
 class WpBookingsFrontUi extends AbstractBaseModule
 {
     static $bookingWidgetId = 0;
 
+    protected $template;
+
     /**
-     * WpBookingsFrontUi constructor.
+     * Constructor.
      *
      * @since [*next-version*]
      *
-     * @param $key
-     * @param $containerFactory
-     *
-     * @throws \Dhii\Exception\InternalException
+     * @param string|Stringable $key The module key.
+     * @param string[]|Stringable[] $dependencies The module  dependencies.
+     * @param ContainerFactoryInterface $configFactory The config factory.
+     * @param ContainerFactoryInterface $containerFactory The container factory.
+     * @param ContainerFactoryInterface $compContainerFactory The composite container factory.
+     * @param EventManagerInterface $eventManager The event manager.
+     * @param EventFactoryInterface $eventFactory The event factory.
      */
-    public function __construct($key, $containerFactory)
+    public function __construct(
+        $key,
+        $dependencies,
+        $configFactory,
+        $containerFactory,
+        $compContainerFactory,
+        $eventManager,
+        $eventFactory
+    )
     {
-        $this->_initModule(
-            $containerFactory,
-            $key,
-            [],
-            $this->_loadPhpConfigFile(RC_WP_BOOKINGS_FRONT_UI_MODULE_CONFIG)
-        );
+        $this->_initModule($key, $dependencies, $configFactory, $containerFactory, $compContainerFactory);
+        $this->_initModuleEvents($eventManager, $eventFactory);
     }
 
     /**
@@ -39,11 +52,13 @@ class WpBookingsFrontUi extends AbstractBaseModule
         /*
          * @todo: remove it when composite container is ready
          */
-        return $this->_createContainer([
-            'wp_bookings_front_ui' => function () {
-                return $this;
-            }
-        ]);
+        return $this->_setupContainer(
+            $this->_loadPhpConfigFile(RC_WP_BOOKINGS_FRONT_UI_MODULE_CONFIG),
+            [
+                'wp_bookings_front_ui' => function () {
+                    return $this;
+                }
+            ]);
     }
 
     /**
@@ -51,7 +66,10 @@ class WpBookingsFrontUi extends AbstractBaseModule
      *
      * @since [*next-version*]
      */
-    public function run(ContainerInterface $c = null) {}
+    public function run(ContainerInterface $c = null)
+    {
+        $this->template = $c->get('bookings_front_ui/holder_template');
+    }
 
     /**
      * Render booking holder and enqueue styles and scripts.
@@ -63,7 +81,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function render($params = [])
     {
-        $bookingHolder = sprintf($this->_getConfig()['holder_template'], static::$bookingWidgetId, json_encode($params));
+        $bookingHolder = sprintf($this->template, static::$bookingWidgetId, json_encode($params));
 
         static::$bookingWidgetId++;
 
@@ -75,10 +93,10 @@ class WpBookingsFrontUi extends AbstractBaseModule
      *
      * @since [*next-version*]
      */
-    public function enqueueAssets()
+    public function enqueueAssets($c)
     {
-        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY . '-main', $this->_getConfig()['main_script'], [], false, true);
-        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $this->_getConfig()['script'], [], false, true);
-        wp_enqueue_style(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $this->_getConfig()['style']);
+        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY . '-main', $c->get('bookings_front_ui/main_script'), [], false, true);
+        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $c->get('bookings_front_ui/script'), [], false, true);
+        wp_enqueue_style(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $c->get('bookings_front_ui/style'));
     }
 }
