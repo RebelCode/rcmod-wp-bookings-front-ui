@@ -1,3 +1,4 @@
+.vagrant/
 /vendor/
 /nbproject/private/
 /test/coverage/
