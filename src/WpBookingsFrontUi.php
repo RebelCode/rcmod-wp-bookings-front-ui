@@ -15,6 +15,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
 
     protected $template;
 
+    protected $apiBaseUrl;
+
     /**
      * Constructor.
      *
@@ -69,6 +71,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
     public function run(ContainerInterface $c = null)
     {
         $this->template = $c->get('bookings_front_ui/holder_template');
+        $this->apiBaseUrl = '/' . $c->get('eddbk_rest_api/namespace');
     }
 
     /**
@@ -81,11 +84,29 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function render($params = [])
     {
-        $bookingHolder = sprintf($this->template, static::$bookingWidgetId, json_encode($params));
+        $params['apiBaseUrl'] = $this->_getApiBaseUrl();
+
+        $bookingHolder = sprintf(
+            $this->template, 
+            static::$bookingWidgetId, 
+            json_encode($params)
+        );
 
         static::$bookingWidgetId++;
 
         return $bookingHolder;
+    }
+
+    /**
+     * Get API base url.
+     * 
+     * @since [*next-version*]
+     * 
+     * @return string
+     */
+    protected function _getApiBaseUrl()
+    {
+        return rest_url($this->apiBaseUrl);
     }
 
     /**
