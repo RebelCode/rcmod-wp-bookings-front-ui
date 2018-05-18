@@ -10,3 +10,31 @@
 A RebelCode module that provides UI for booking appointments
 
 [Dhii]: https://github.com/Dhii/dhii
+
+## Make It Works
+
+This module provide WP wrapper for bookings wizard. So to make it works you need to pull in `bookings-client` as front-end dependency:
+```bash
+$ npm install
+```
+It will install all front-end dependencies, with **pre-built** sources.
+
+## Usage
+
+Module exposes two methods in order to make everything works:
+```php
+render($params = [])
+
+// usage
+echo $c->get('wp_bookings_front_ui')->render($someAttrs);
+```
+Where `$params` is array that will be passed to `BookingWizard` application.
+
+And
+```php
+enqueueAssets()
+
+// usage
+echo $c->get('wp_bookings_front_ui')->enqueueAssets();
+```
+This method enqueuing assets using WP enqueue system and must be called on some WP enqueue hook.
