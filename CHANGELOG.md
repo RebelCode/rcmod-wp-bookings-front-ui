@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
 
+## [0.1-alpha3] - 2018-05-24
+### Changed
+- Now using version `0.0.6` of `bookings-client`.
+
 ## [0.1-alpha2] - 2018-05-21
 ### Changed
-- Now using version `0.0.5` of `eddbk-wizard`
+- Now using version `0.0.5` of `bookings-client`
 
 ## [0.1-alpha1] - 2018-05-21
 Initial version.
