@@ -6,5 +6,6 @@ return [
         'style' => 'https://unpkg.com/@rebelcode/bookings-client@0.0.6/dist/static/css/app.css',
         'script' => 'https://unpkg.com/@rebelcode/bookings-client@0.0.6/dist/static/js/app.js',
         'main_script' => plugins_url(RC_WP_BOOKINGS_FRONT_UI_MODULE_RELATIVE_DIR . '/assets/main.js', EDDBK_FILE),
+        'edd_settings' => get_option('edd_settings')
     ]
 ];

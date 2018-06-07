@@ -66,10 +66,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
             [
                 'wp_bookings_front_ui' => function () {
                     return $this;
-                },
-                'bookings_front_ui/options_container' => function () {
-                    return new OptionsContainer();
-                },
+                }
             ]);
     }
 
@@ -82,7 +79,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
     {
         $this->template = $c->get('bookings_front_ui/holder_template');
         $this->apiBaseUrl = '/' . $c->get('eddbk_rest_api/namespace');
-        $this->cartPageId = $c->get('bookings_front_ui/options_container')->get('edd_settings/purchase_page');
+        $this->cartPageId = $c->get('bookings_front_ui/edd_settings/purchase_page');
     }
 
     /**
