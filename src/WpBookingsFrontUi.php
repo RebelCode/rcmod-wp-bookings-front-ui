@@ -18,6 +18,13 @@ class WpBookingsFrontUi extends AbstractBaseModule
     protected $apiBaseUrl;
 
     /**
+     * @since [*next-version*]
+     *
+     * @var int Cart page ID
+     */
+    protected $cartPageId;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
@@ -59,7 +66,10 @@ class WpBookingsFrontUi extends AbstractBaseModule
             [
                 'wp_bookings_front_ui' => function () {
                     return $this;
-                }
+                },
+                'bookings_front_ui/options_container' => function () {
+                    return new OptionsContainer();
+                },
             ]);
     }
 
@@ -72,6 +82,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
     {
         $this->template = $c->get('bookings_front_ui/holder_template');
         $this->apiBaseUrl = '/' . $c->get('eddbk_rest_api/namespace');
+        $this->cartPageId = $c->get('bookings_front_ui/options_container')->get('edd_settings/purchase_page');
     }
 
     /**
@@ -85,6 +96,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
     public function render($params = [])
     {
         $params['apiBaseUrl'] = $this->_getApiBaseUrl();
+        $params['redirectUrl'] = $this->_getRedirectUrl();
 
         $bookingHolder = sprintf(
             $this->template, 
@@ -95,6 +107,18 @@ class WpBookingsFrontUi extends AbstractBaseModule
         static::$bookingWidgetId++;
 
         return $bookingHolder;
+    }
+
+    /**
+     * Get cart URL on which customer will be redirected after successfull booking creation.
+     * 
+     * @since [*next-version*]
+     * 
+     * @return string Cart URL to redirect user on.
+     */
+    protected function _getRedirectUrl()
+    {
+        return get_permalink($this->cartPageId);
     }
 
     /**
