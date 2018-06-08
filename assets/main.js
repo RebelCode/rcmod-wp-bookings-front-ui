@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var bottle = BookingWizardManager.getDefaultBottle()
     bottle.container.config.appEl = wizardElements[i]
     bottle.container.config.API_BASE_URL = config.apiBaseUrl
+    if (config.service) {
+      bottle.container.config.service = config.service
+    }
     BookingWizardManager.create(bottle);
   }
 });
