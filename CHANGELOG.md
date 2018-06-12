@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [[*next-version*]] - YYYY-MM-DD
 
 ## [0.1-alpha6] - 2018-06-12
+### Changed
 - Now using version `0.0.10` of `bookings-client`.
 
 ## [0.1-alpha5] - 2018-06-11
