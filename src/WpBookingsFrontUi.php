@@ -8,6 +8,8 @@ use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Modular\Module\AbstractBaseModule;
 use Dhii\Util\String\StringableInterface as Stringable;
+use Dhii\Output\PlaceholderTemplateFactory;
+use Dhii\Output\TemplateFactoryInterface;
 
 class WpBookingsFrontUi extends AbstractBaseModule
 {
@@ -62,12 +64,112 @@ class WpBookingsFrontUi extends AbstractBaseModule
          * @todo: remove it when composite container is ready
          */
         return $this->_setupContainer(
-            $this->_loadPhpConfigFile(RC_WP_BOOKINGS_FRONT_UI_MODULE_CONFIG),
-            [
+            $this->_loadPhpConfigFile(WP_BOOKINGS_FRONT_UI_MODULE_CONFIG), [
                 'wp_bookings_front_ui' => function () {
                     return $this;
-                }
+                },
+
+                /**
+                 * Templates factory.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_template_factory' => function (ContainerInterface $c) {
+                    return new PlaceholderTemplateFactory(
+                        'Dhii\Output\PlaceholderTemplate',
+                        $c->get('bookings_front_ui/templates_config/token_start'),
+                        $c->get('bookings_front_ui/templates_config/token_end'),
+                        $c->get('bookings_front_ui/templates_config/token_default')
+                    );
+                },
+
+                /**
+                 * Template that holds all components templates.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_components_templates' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/components/index.html');
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template
+                    ]);
+                },
+
+                /**
+                 * Main wizard template.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_wizard_template' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/components/eddbk-wizard.html');
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template
+                    ]);
+                },
+
+                /**
+                 * Template for confirmation step.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_confirmation_step_template' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/components/wizard-confirmation-step.html');
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template
+                    ]);
+                },
+
+                /**
+                 * Template for selecting session step.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_session_step_template' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/components/wizard-session-step.html');
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template
+                    ]);
+                },
+
+                /**
+                 * Template for selecting service.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_service_step_template' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/components/wizard-service-step.html');
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template
+                    ]);
+                },
+
+                /**
+                 * Template for session picker sub-components.
+                 * 
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_session_selector_template' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/components/session-selector.html');
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template
+                    ]);
+                },
             ]);
+    }
+
+    /**
+     * Get content of template file.
+     * 
+     * @since [*next-version*]
+     * 
+     * @param string $templateFile Template file for reading.
+     * 
+     * @return string Content of given template file.
+     */
+    protected function _openTemplate($templateFile) 
+    {
+        $templatePath = WP_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR . $templateFile;
+        return file_get_contents($templatePath);
     }
 
     /**
@@ -83,7 +185,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
     }
 
     /**
-     * Render booking holder and enqueue styles and scripts.
+     * Render booking holder.
      *
      * @since [*next-version*]
      *
@@ -97,7 +199,6 @@ class WpBookingsFrontUi extends AbstractBaseModule
 
         $bookingHolder = sprintf(
             $this->template, 
-            static::$bookingWidgetId, 
             json_encode($params)
         );
 
@@ -130,15 +231,56 @@ class WpBookingsFrontUi extends AbstractBaseModule
         return rest_url($this->apiBaseUrl);
     }
 
+    public function enqueueAssetsIf($c, $condition) 
+    {
+        $this->eventManager->attach('wp_enqueue_scripts', function () use ($c, $condition) {
+            if (!$condition()) {
+                return;
+            }
+            $this->_enqueueAssets($c);
+        });
+
+        $this->eventManager->attach('wp_footer', function () use ($c, $condition) {
+            if (!$condition()) {
+                return;
+            }
+            echo $this->_getComponentsTemplates($c);
+        });
+    }
+
     /**
      * Add WP styles and scripts enqueuing.
      *
      * @since [*next-version*]
      */
-    public function enqueueAssets($c)
+    protected function _enqueueAssets($c)
     {
-        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY . '-main', $c->get('bookings_front_ui/main_script'), [], false, true);
-        wp_enqueue_script(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $c->get('bookings_front_ui/script'), [], false, true);
-        wp_enqueue_style(RC_WP_BOOKINGS_FRONT_UI_MODULE_KEY, $c->get('bookings_front_ui/style'));
+        wp_enqueue_script(WP_BOOKINGS_FRONT_UI_MODULE_KEY . '-main', $c->get('bookings_front_ui/main_script'), [], false, true);
+        wp_enqueue_script(WP_BOOKINGS_FRONT_UI_MODULE_KEY, $c->get('bookings_front_ui/script'), [], false, true);
+        wp_enqueue_style(WP_BOOKINGS_FRONT_UI_MODULE_KEY, $c->get('bookings_front_ui/style'));
+    }
+
+    /**
+     * Get front ui application templates.
+     * 
+     * @since [*next-version*]
+     * 
+     * @param ContainerInterface $c The container.
+     * 
+     * @return string Rendered front ui application template.
+     */
+    protected function _getComponentsTemplates($c)
+    {
+        $mainTemplate = $c->get('eddbk_front_components_templates');
+
+        $componentTemplatesContext = [
+            'eddbkWizardTemplate' => $c->get('eddbk_front_wizard_template')->render(),
+            'sessionSelectorTemplate' => $c->get('eddbk_front_session_selector_template')->render(),
+            'wizardServiceStepTemplate' => $c->get('eddbk_front_service_step_template')->render(),
+            'wizardSessionStepTemplate' => $c->get('eddbk_front_session_step_template')->render(),
+            'wizardConfirmationStepTemplate' => $c->get('eddbk_front_confirmation_step_template')->render(),
+        ];
+
+        return $mainTemplate->render($componentTemplatesContext);
     }
 }
