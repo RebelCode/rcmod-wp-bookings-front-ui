@@ -7,6 +7,7 @@ use Dhii\Event\EventFactoryInterface;
 use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Bookings\WordPress\Module\Handlers\AssetsEnqueueHandler;
+use RebelCode\Bookings\WordPress\Module\Handlers\MainComponentHandler;
 use RebelCode\Bookings\WordPress\Module\Handlers\OutputTemplateHandler;
 use RebelCode\Bookings\WordPress\Module\Handlers\StateEnqueueHandler;
 use RebelCode\Modular\Module\AbstractBaseModule;
@@ -16,19 +17,6 @@ use Dhii\Output\TemplateFactoryInterface;
 
 class WpBookingsFrontUi extends AbstractBaseModule
 {
-    static $bookingWidgetId = 0;
-
-    protected $template;
-
-    protected $apiBaseUrl;
-
-    /**
-     * @since [*next-version*]
-     *
-     * @var int Cart page ID
-     */
-    protected $cartPageId;
-
     /**
      * Constructor.
      *
@@ -200,6 +188,18 @@ class WpBookingsFrontUi extends AbstractBaseModule
                         $c->get('bookings_front_ui/initial_booking_transition'),
                         $c->get('bookings_front_ui/formats/datetime')
                     );
+                },
+
+                /**
+                 * Handles for outputting main component of application.
+                 *
+                 * @since [*next-version*]
+                 */
+                'eddbk_wizard_main_component_handler' => function (ContainerInterface $c) {
+                    return new MainComponentHandler(
+                        $c->get('bookings_front_ui/holder_template'),
+                        $c->get('bookings_front_ui/edd_settings/purchase_page')
+                    );
                 }
             ]);
     }
@@ -226,61 +226,12 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function run(ContainerInterface $c = null)
     {
-        $this->template = $c->get('bookings_front_ui/holder_template');
-        $this->apiBaseUrl = '/' . $c->get('eddbk_rest_api/namespace');
-        $this->cartPageId = $c->get('bookings_front_ui/edd_settings/purchase_page');
-
         $this->_attach('eddbk_wizard_components_templates', $c->get('eddbk_wizard_components_templates_handler'));
 
         $this->_attach('eddbk_wizard_enqueue_assets', $c->get('eddbk_wizard_enqueue_assets_handler'));
 
         $this->_attach('eddbk_wizard_enqueue_app_state', $c->get('eddbk_wizard_enqueue_app_state_handler'));
 
-        // $this->_attach('eddbk_wizard_main_component', $c->get('eddbk_wizard_main_component_handler'));
-    }
-
-    /**
-     * Render booking holder.
-     *
-     * @since [*next-version*]
-     *
-     * @param $params
-     * @return string
-     */
-    public function render($params = [])
-    {
-        $params['apiBaseUrl'] = $this->_getApiBaseUrl();
-        $params['redirectUrl'] = $this->_getRedirectUrl();
-
-        $bookingHolder = sprintf(
-            $this->template, 
-            json_encode($params)
-        );
-
-        return $bookingHolder;
-    }
-
-    /**
-     * Get cart URL on which customer will be redirected after successfull booking creation.
-     * 
-     * @since [*next-version*]
-     * 
-     * @return string Cart URL to redirect user on.
-     */
-    protected function _getRedirectUrl()
-    {
-        return get_permalink($this->cartPageId);
-    }
-
-    /**
-     * Get API base url.
-     * 
-     * @since [*next-version*]
-     * 
-     * @return string
-     */
-    protected function _getApiBaseUrl()
-    {
-        return rest_url($this->apiBaseUrl);
+         $this->_attach('eddbk_wizard_main_component', $c->get('eddbk_wizard_main_component_handler'));
     }
 }
