@@ -1,0 +1,99 @@
+<?php
+
+namespace RebelCode\Bookings\WordPress\Module\Handlers;
+
+
+use Dhii\Cache\ContainerInterface;
+use Dhii\Invocation\InvocableInterface;
+
+class AssetsEnqueueHandler implements InvocableInterface
+{
+    /**
+     * Container of assets urls.
+     *
+     * @since [*next-version*]
+     *
+     * @var ContainerInterface
+     */
+    protected $assetsUrlMap;
+
+    /**
+     * Container of application's assets.
+     *
+     * @since [*next-version*]
+     *
+     * @var ContainerInterface
+     */
+    protected $assets;
+
+    /**
+     * AssetsEnqueueHandler constructor.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $assetsUrlMap Container of assets urls.
+     * @param ContainerInterface $assets Container of application's assets.
+     */
+    public function __construct($assetsUrlMap, $assets)
+    {
+        $this->assetsUrlMap = $assetsUrlMap;
+        $this->assets = $assets;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @since [*next-version*]
+     */
+    public function __invoke()
+    {
+        /* @var $event EventInterface */
+        $event = func_get_arg(0);
+
+        if (!($event instanceof EventInterface)) {
+            throw $this->_createInvalidArgumentException(
+                $this->__('Argument is not an event instance'), null, null, $event
+            );
+        }
+
+        $this->_enqueueAssets($this->assetsUrlMap, $this->assets);
+    }
+
+    /**
+     * Enqueue application's assets.
+     *
+     * @since [*next-version*]
+     *
+     * @param ContainerInterface $assetsUrlMap Container of assets urls.
+     * @param ContainerInterface $assets Container of application's assets.
+     */
+    protected function _enqueueAssets($assetsUrlMap, $assets)
+    {
+        /*
+         * Enqueue require-related script and script list from the container
+         */
+        wp_enqueue_script('eddbk-wizard-app-require', $assetsUrlMap->get(
+            $assets->get('require.js')
+        ), [], false, true);
+
+        wp_localize_script('eddbk-wizard-app-require', 'EDDBK_WIZARD_REQUIRE_FILES', [
+            'bookingWizard' => $assetsUrlMap->get(
+                $assets->get('wizard/app.min.js')
+            ),
+        ]);
+
+        /*
+         * All application components located here
+         */
+        wp_enqueue_script('eddbk-wizard-app', $assetsUrlMap->get(
+            $assets->get('wizard/main.js')
+        ), [], false, true);
+
+        /*
+         * Enqueue all styles from assets URL map
+         */
+        foreach ($assets->get('styles') as $styleId => $styleDependency) {
+            wp_enqueue_style('eddbk-wizard-app-' . $styleId, $assetsUrlMap->get($styleDependency));
+        }
+    }
+}

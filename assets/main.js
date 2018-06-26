@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
        *
        * @since [*next-version*]
        *
-       * @property {string[]} applicationContainers List of application div's ids for UI framework (UI framework will mount application to each of them).
+       * @property {string} applicationSelector Application selector for UI framework (UI framework will mount application to each of them).
        * @property {{bookings: string, services: string}} apiBaseUrls Map of resources names to their urls.
        * @property {string} initialBookingTransition Name of booking transition for creating booking.
        * @property {object} datetimeFormats Map of datetime keys to datetime formats for formatting datetimes in application.
@@ -85,7 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
       return window.EDDBK_WIZARD_APP_STATE
     }
     serviceList['selectorList'] = function (container) {
-      return container.state.applicationContainers
+      return [
+        container.state.applicationSelector
+      ]
     }
     serviceList['config'] = function (container) {
       return {
