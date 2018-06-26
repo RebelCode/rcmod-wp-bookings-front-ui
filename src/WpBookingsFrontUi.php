@@ -231,6 +231,10 @@ class WpBookingsFrontUi extends AbstractBaseModule
         return rest_url($this->apiBaseUrl);
     }
 
+    /**
+     * @param $c ContainerInterface The container.
+     * @param $condition callable Condition that should be true to output assets.
+     */
     public function enqueueAssetsIf($c, $condition) 
     {
         $this->eventManager->attach('wp_enqueue_scripts', function () use ($c, $condition) {
