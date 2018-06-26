@@ -3,7 +3,10 @@
 namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
 use Dhii\Cache\ContainerInterface;
+use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
+use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Invocation\InvocableInterface;
+use Psr\EventManager\EventInterface;
 
 /**
  * Handles assets enqueuing of client application.
@@ -12,6 +15,12 @@ use Dhii\Invocation\InvocableInterface;
  */
 class AssetsEnqueueHandler implements InvocableInterface
 {
+    /** @since [*next-version*] */
+    use StringTranslatingTrait;
+
+    /** @since [*next-version*] */
+    use CreateInvalidArgumentExceptionCapableTrait;
+
     /**
      * Container of assets urls.
      *

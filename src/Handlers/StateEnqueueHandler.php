@@ -9,6 +9,7 @@ use Dhii\Invocation\InvocableInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Dhii\Util\Normalization\NormalizeStringCapableTrait;
 use Dhii\Util\String\StringableInterface as Stringable;
+use Psr\EventManager\EventInterface;
 use stdClass;
 use Traversable;
 

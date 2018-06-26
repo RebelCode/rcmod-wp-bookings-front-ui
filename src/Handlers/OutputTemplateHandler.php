@@ -2,9 +2,12 @@
 
 namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
+use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
+use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Invocation\InvocableInterface;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\String\StringableInterface;
+use Dhii\Util\String\StringableInterface as Stringable;
+use Psr\EventManager\EventInterface;
 
 /**
  * Handles template creation for wizard application.
@@ -13,6 +16,12 @@ use Dhii\Util\String\StringableInterface;
  */
 class OutputTemplateHandler implements InvocableInterface
 {
+    /** @since [*next-version*] */
+    use StringTranslatingTrait;
+
+    /** @since [*next-version*] */
+    use CreateInvalidArgumentExceptionCapableTrait;
+
     /**
      * Main template in which all components templates will be rendered.
      *
@@ -71,7 +80,7 @@ class OutputTemplateHandler implements InvocableInterface
      *
      * @since [*next-version*]
      *
-     * @return StringableInterface|string Rendered content of main template.
+     * @return Stringable|string Rendered content of main template.
      */
     protected function _renderMainTemplate()
     {
