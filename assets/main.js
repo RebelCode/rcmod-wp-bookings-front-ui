@@ -106,6 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
         datetime: container.state.datetimeFormats
       }
     }
+    serviceList['document'] = function () {
+      return document
+    }
 
     for (var i = 0; i < Object.keys(serviceList).length; i++) {
       var serviceName = Object.keys(serviceList)[i]
