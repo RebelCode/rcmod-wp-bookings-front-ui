@@ -2,10 +2,14 @@
 
 namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
-
 use Dhii\Cache\ContainerInterface;
 use Dhii\Invocation\InvocableInterface;
 
+/**
+ * Handles assets enqueuing of client application.
+ *
+ * @since [*next-version*]
+ */
 class AssetsEnqueueHandler implements InvocableInterface
 {
     /**

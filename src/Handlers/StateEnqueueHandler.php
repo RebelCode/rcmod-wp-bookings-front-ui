@@ -12,6 +12,11 @@ use Dhii\Util\String\StringableInterface as Stringable;
 use stdClass;
 use Traversable;
 
+/**
+ * Handle state output for the client application.
+ *
+ * @since [*next-version*]
+ */
 class StateEnqueueHandler implements InvocableInterface
 {
     /** @since [*next-version*] */
