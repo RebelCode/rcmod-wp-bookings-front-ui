@@ -18,6 +18,7 @@ return [
         'api_base_urls' => [
             'bookings' => '/eddbk/v1/bookings/',
             'services' => '/eddbk/v1/services/',
+            'sessions' => '/eddbk/v1/sessions/',
         ],
         'initial_booking_transition' => 'cart',
         'formats' => [
@@ -28,6 +29,15 @@ return [
                 'dayKey' => 'YYYY-MM-DD',
                 'appointmentStart' => 'h:mm a \o\\n dddd Do MMMM YYYY'
             ]
+        ],
+        /*
+         * Data map for booking resource. Key is real key name which be sent
+         * to the API. Value is field name for using onto client.
+         *
+         * @since [*next-version*]
+         */
+        'booking_data_map' => [
+            'notes' => 'notes'
         ],
 
         'assets_urls_map_path' => WP_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',

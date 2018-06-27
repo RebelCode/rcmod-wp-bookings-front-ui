@@ -27,15 +27,22 @@
         </div>
         <div class="inline-form-control" v-if="!isDailyDuration">
             <label>{{ 'Select available time' }}</label>
-            <session-time-picker v-model="session"
-                                 :selected-day.sync="selectedDay"
-                                 :selected-session-length="sessionDuration"
-                                 :service="service"
-                                 :timezone="timezone"
-                                 :sessions="selectedDaySessions"
-                                 :prev-available-day="prevAvailableDay"
-                                 :next-available-day="nextAvailableDay"
-            ></session-time-picker>
+
+            <div class="eddb-control eddb-control-appointment">
+                <date-navigator
+                        :selected-day.sync="selectedDay"
+                        :timezone="timezone"
+                        :prev-available-day="prevAvailableDay"
+                        :next-available-day="nextAvailableDay"
+                ></date-navigator>
+                <session-time-picker v-model="session"
+                                     :selected-day.sync="selectedDay"
+                                     :selected-session-length="sessionDuration"
+                                     :service="service"
+                                     :timezone="timezone"
+                                     :sessions="selectedDaySessions"
+                ></session-time-picker>
+            </div>
         </div>
     </div>
 </script>
@@ -53,24 +60,26 @@
     </div>
 </script>
 <script type="text/x-template" id="session-time-picker-template">
-    <div class="eddb-control eddb-control-appointment">
-        <div class="eddb-control-appointment__header">
-            <span><button @click="goToPrevDay" :disabled="!!prevAvailableDay">&#9664;</button></span>
-            <span>{{ selectedDaySessionsLabel }}</span>
-            <span><button @click="goToNextDay" :disabled="!!nextAvailableDay">&#9654;</button></span>
-        </div>
-        <div class="eddb-control-appointment__body">
-            <div
-                    :class="{'selected': isSelected(session) }"
-                    v-for="session in visibleSessions"
-                    @click="select(session)"
-                    class="session__item"
-            >
-                {{ sessionLabel(session) }}
-            </div>
+    <div class="eddb-control-appointment__body">
+        <div
+                :class="{'selected': isSelected(session) }"
+                v-for="session in visibleSessions"
+                @click="select(session)"
+                class="session__item"
+        >
+            {{ sessionLabel(session) }}
         </div>
     </div>
 </script>
+
+<script type="text/x-template" id="date-navigator-template">
+    <div class="eddb-control-appointment__header">
+        <span><button @click="goToPrevDay" :disabled="!!prevAvailableDay">&#9664;</button></span>
+        <span>{{ selectedDaySessionsLabel }}</span>
+        <span><button @click="goToNextDay" :disabled="!!nextAvailableDay">&#9654;</button></span>
+    </div>
+</script>
+
 <script type="text/x-template" id="session-duration-picker-template">
     <div>
         <select v-model="valueProxy" class="eddb-control">

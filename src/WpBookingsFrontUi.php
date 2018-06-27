@@ -185,6 +185,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     return new StateEnqueueHandler(
                         $c->get('bookings_front_ui/application_selector'),
                         $c->get('bookings_front_ui/api_base_urls'),
+                        $c->get('bookings_front_ui/booking_data_map'),
                         $c->get('bookings_front_ui/initial_booking_transition'),
                         $c->get('bookings_front_ui/formats/datetime')
                     );

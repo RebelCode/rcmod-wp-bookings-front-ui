@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
       stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.4/dist/std-lib.umd',
       bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
       vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue',
-      bookingWizardComponents: '/dist/js/bwc.min',
+      vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
+      bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.4/dist/lib.min',
       formWizard: 'https://unpkg.com/vue-form-wizard/dist/vue-form-wizard',
       axios: 'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min',
       humanizeDuration: 'https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.14.0/humanize-duration.min',
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     'uiFramework',
     'bottle',
     'vue',
+    'vuex',
     'axios',
     'humanizeDuration',
     'cjs!datepicker',
@@ -101,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         bookingsResourceUrl: container.state.apiBaseUrls.bookings,
         servicesResourceUrl: container.state.apiBaseUrls.services,
-
+        bookingDataMap: container.state.bookingDataMap,
         initialBookingTransition: container.state.initialBookingTransition,
         datetime: container.state.datetimeFormats
       }

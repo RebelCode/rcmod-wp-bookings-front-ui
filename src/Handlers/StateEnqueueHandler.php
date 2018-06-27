@@ -60,6 +60,15 @@ class StateEnqueueHandler implements InvocableInterface
     protected $initialBookingTransition;
 
     /**
+     * Map of additional booking fields to their aliases for client.
+     *
+     * @since [*next-version*]
+     *
+     * @var MapInterface|array|stdClass
+     */
+    protected $bookingDataMap;
+
+    /**
      * List of datetime formats for application.
      *
      * @since [*next-version*]
@@ -75,13 +84,21 @@ class StateEnqueueHandler implements InvocableInterface
      *
      * @param string|Stringable $applicationSelector Application container's CSS selector.
      * @param MapInterface|array|stdClass $apiBaseUrls List of base urls for API endpoints.
+     * @param MapInterface|array|stdClass $bookingDataMap Map of additional booking fields to their aliases for client.
      * @param string|Stringable $initialBookingTransition Name of initial transition for booking.
      * @param MapInterface|array|stdClass $datetimeFormats List of datetime formats for application.
      */
-    public function __construct($applicationSelector, $apiBaseUrls, $initialBookingTransition, $datetimeFormats)
+    public function __construct(
+        $applicationSelector,
+        $apiBaseUrls,
+        $bookingDataMap,
+        $initialBookingTransition,
+        $datetimeFormats
+    )
     {
         $this->applicationSelector = $this->_normalizeString($applicationSelector);
         $this->apiBaseUrls = $apiBaseUrls;
+        $this->bookingDataMap = $bookingDataMap;
         $this->initialBookingTransition = $this->_normalizeString($initialBookingTransition);
         $this->datetimeFormats = $datetimeFormats;
     }
@@ -115,6 +132,7 @@ class StateEnqueueHandler implements InvocableInterface
         wp_localize_script('eddbk-wizard-app', 'EDDBK_WIZARD_APP_STATE', [
             'applicationSelector' => $this->applicationSelector,
             'apiBaseUrls' => $this->_getApiBaseUrls($this->apiBaseUrls),
+            'bookingDataMap' => $this->_normalizeArray($this->bookingDataMap),
             'initialBookingTransition' => $this->initialBookingTransition,
             'datetimeFormats' => $this->_normalizeArray($this->datetimeFormats),
         ]);
