@@ -23,7 +23,7 @@ const config = {
   },
   plugins: [
     new ExtractTextPlugin({ // define where to save the file
-      filename: './dist/wp-booking-front-ui.css',
+      filename: './dist/wp-bookings-front-ui.css',
       allChunks: true,
     }),
   ],

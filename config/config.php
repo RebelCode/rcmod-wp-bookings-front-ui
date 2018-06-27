@@ -38,7 +38,7 @@ return [
                 'main.js' => 'wizard_ui/assets/main.js',
             ],
             'styles' => [
-                'app' => 'wizard_ui/dist/eddbk-wizard-ui.css',
+                'app' => 'wizard_ui/dist/wp-bookings-front-ui.css',
             ],
         ]
     ]
