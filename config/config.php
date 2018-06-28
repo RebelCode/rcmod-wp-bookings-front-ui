@@ -32,7 +32,7 @@ return [
         ],
         /*
          * Data map for booking resource. Key is real key name which be sent
-         * to the API. Value is field name for using onto client.
+         * to the API. Value is field name for using on the client.
          *
          * @since [*next-version*]
          */
