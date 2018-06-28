@@ -15,7 +15,7 @@ return [
         ],
 
         'application_selector' => '[data-eddbk-wizard-holder]',
-        'api_base_paths' => [
+        'api_endpoint_urls' => [
             'bookings' => '/eddbk/v1/bookings/',
             'services' => '/eddbk/v1/services/',
             'sessions' => '/eddbk/v1/sessions/',

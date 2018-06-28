@@ -41,13 +41,13 @@ class StateEnqueueHandler implements InvocableInterface
     protected $applicationSelector;
 
     /**
-     * Map of resource name to its API path.
+     * Map of endpoint name to its API url.
      *
      * @since [*next-version*]
      *
      * @var array|MapInterface|stdClass
      */
-    protected $apiBasePaths;
+    protected $apiEndpointUrls;
 
     /**
      * Name of initial transition for booking.
@@ -82,20 +82,20 @@ class StateEnqueueHandler implements InvocableInterface
      * @since [*next-version*]
      *
      * @param string|Stringable           $applicationSelector      Application container's CSS selector.
-     * @param MapInterface|array|stdClass $apiBasePaths             Map of resource name to its API path.
+     * @param MapInterface|array|stdClass $apiEndpointUrls          Map of endpoint name to its API url.
      * @param MapInterface|array|stdClass $bookingDataMap           Map of additional booking fields to their aliases for client.
      * @param string|Stringable           $initialBookingTransition Name of initial transition for booking.
      * @param MapInterface|array|stdClass $datetimeFormats          List of datetime formats for application.
      */
     public function __construct(
         $applicationSelector,
-        $apiBasePaths,
+        $apiEndpointUrls,
         $bookingDataMap,
         $initialBookingTransition,
         $datetimeFormats
     ) {
         $this->applicationSelector      = $this->_normalizeString($applicationSelector);
-        $this->apiBasePaths             = $apiBasePaths;
+        $this->apiEndpointUrls          = $apiEndpointUrls;
         $this->bookingDataMap           = $bookingDataMap;
         $this->initialBookingTransition = $this->_normalizeString($initialBookingTransition);
         $this->datetimeFormats          = $datetimeFormats;
@@ -129,7 +129,7 @@ class StateEnqueueHandler implements InvocableInterface
     {
         wp_localize_script('eddbk-wizard-app', 'EDDBK_WIZARD_APP_STATE', [
             'applicationSelector'      => $this->applicationSelector,
-            'apiBaseUrls'              => $this->_getApiBaseUrls($this->apiBasePaths),
+            'apiEndpointUrls'          => $this->_getApiEndpointUrls($this->apiEndpointUrls),
             'bookingDataMap'           => $this->_normalizeArray($this->bookingDataMap),
             'initialBookingTransition' => $this->initialBookingTransition,
             'datetimeFormats'          => $this->_normalizeArray($this->datetimeFormats),
@@ -137,22 +137,22 @@ class StateEnqueueHandler implements InvocableInterface
     }
 
     /**
-     * Get full URLs of API resources.
+     * Get full URLs of API endpoints.
      *
      * @since [*next-version*]
      *
-     * @param MapInterface|array|stdClass $apiBasePaths Map of resource name to its API path.
+     * @param MapInterface|array|stdClass $apiEndpointUrls Map of endpoint name to its API url.
      *
      * @return array Full URLs of API resources.
      */
-    protected function _getApiBaseUrls($apiBasePaths)
+    protected function _getApiEndpointUrls($apiEndpointUrls)
     {
-        $preparedApiBaseUrls = [];
+        $preparedApiEndpointUrls = [];
 
-        foreach ($apiBasePaths as $name => $baseUrl) {
-            $preparedApiBaseUrls[$name] = rest_url($baseUrl);
+        foreach ($apiEndpointUrls as $name => $baseUrl) {
+            $preparedApiEndpointUrls[$name] = rest_url($baseUrl);
         }
 
-        return $preparedApiBaseUrls;
+        return $preparedApiEndpointUrls;
     }
 }
