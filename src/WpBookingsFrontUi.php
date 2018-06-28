@@ -216,8 +216,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  */
                 'eddbk_wizard_main_component_handler' => function (ContainerInterface $c) {
                     return new MainComponentHandler(
-                        $c->get('eddbk_front_app_holder_template'),
-                        $c->get('bookings_front_ui/edd_settings/purchase_page')
+                        $c->get('eddbk_front_app_holder_template')
                     );
                 },
             ]);

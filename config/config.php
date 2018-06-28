@@ -2,8 +2,6 @@
 
 return [
     'bookings_front_ui' => [
-        'edd_settings' => get_option('edd_settings'),
-
         /*
          * Configuration for placeholder templates.
          */

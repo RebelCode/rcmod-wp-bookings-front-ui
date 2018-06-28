@@ -2,6 +2,8 @@
 
 namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
+use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
+use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Invocation\InvocableInterface;
 use Dhii\Output\TemplateInterface;
 use Psr\EventManager\EventInterface;
@@ -13,6 +15,12 @@ use Psr\EventManager\EventInterface;
  */
 class MainComponentHandler implements InvocableInterface
 {
+    /* @since [*next-version*] */
+    use StringTranslatingTrait;
+
+    /* @since [*next-version*] */
+    use CreateInvalidArgumentExceptionCapableTrait;
+
     /**
      * Template of application holder.
      *
@@ -23,26 +31,15 @@ class MainComponentHandler implements InvocableInterface
     protected $template;
 
     /**
-     * Cart page ID.
-     *
-     * @since [*next-version*]
-     *
-     * @var int
-     */
-    protected $cartPageId;
-
-    /**
      * MainComponentHandler constructor.
      *
      * @since [*next-version*]
      *
-     * @param TemplateInterface $template   Template of application holder.
-     * @param int               $cartPageId Cart page ID.
+     * @param TemplateInterface $template Template of application holder.
      */
-    public function __construct($template, $cartPageId)
+    public function __construct($template)
     {
-        $this->template   = $template;
-        $this->cartPageId = $cartPageId;
+        $this->template = $template;
     }
 
     /**
@@ -67,7 +64,7 @@ class MainComponentHandler implements InvocableInterface
     }
 
     /**
-     * Render booking holder.
+     * Render bookings holder.
      *
      * @since [*next-version*]
      *
@@ -77,22 +74,8 @@ class MainComponentHandler implements InvocableInterface
      */
     protected function _renderComponent($params = [])
     {
-        $params['redirectUrl'] = $this->_getRedirectUrl();
-
         return $this->template->render([
             'config' => json_encode($params),
         ]);
-    }
-
-    /**
-     * Get cart URL on which customer will be redirected after successfull booking creation.
-     *
-     * @since [*next-version*]
-     *
-     * @return string Cart URL to redirect user on.
-     */
-    protected function _getRedirectUrl()
-    {
-        return get_permalink($this->cartPageId);
     }
 }
