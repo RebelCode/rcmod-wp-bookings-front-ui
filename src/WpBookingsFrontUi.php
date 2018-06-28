@@ -189,7 +189,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                 'eddbk_wizard_enqueue_app_state_handler' => function (ContainerInterface $c) {
                     return new StateEnqueueHandler(
                         $c->get('bookings_front_ui/application_selector'),
-                        $c->get('bookings_front_ui/api_base_urls'),
+                        $c->get('bookings_front_ui/api_base_paths'),
                         $c->get('bookings_front_ui/booking_data_map'),
                         $c->get('bookings_front_ui/initial_booking_transition'),
                         $c->get('bookings_front_ui/formats/datetime')
