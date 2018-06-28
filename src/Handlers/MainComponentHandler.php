@@ -3,7 +3,7 @@
 namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
 use Dhii\Invocation\InvocableInterface;
-use Dhii\Util\String\StringableInterface as Stringable;
+use Dhii\Output\TemplateInterface;
 use Psr\EventManager\EventInterface;
 
 /**
@@ -14,11 +14,11 @@ use Psr\EventManager\EventInterface;
 class MainComponentHandler implements InvocableInterface
 {
     /**
-     * Template of application.
+     * Template of application holder.
      *
      * @since [*next-version*]
      *
-     * @var string|Stringable
+     * @var TemplateInterface
      */
     protected $template;
 
@@ -36,7 +36,7 @@ class MainComponentHandler implements InvocableInterface
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable $template   Template of application.
+     * @param TemplateInterface $template   Template of application holder.
      * @param int               $cartPageId Cart page ID.
      */
     public function __construct($template, $cartPageId)
@@ -79,12 +79,9 @@ class MainComponentHandler implements InvocableInterface
     {
         $params['redirectUrl'] = $this->_getRedirectUrl();
 
-        $bookingHolder = sprintf(
-            $this->template,
-            json_encode($params)
-        );
-
-        return $bookingHolder;
+        return $this->template->render([
+            'config' => json_encode($params),
+        ]);
     }
 
     /**

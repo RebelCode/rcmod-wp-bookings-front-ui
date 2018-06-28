@@ -67,6 +67,19 @@ class WpBookingsFrontUi extends AbstractBaseModule
                 },
 
                 /*
+                 * Template for app holder.
+                 *
+                 * @since [*next-version*]
+                 */
+                'eddbk_front_app_holder_template' => function (ContainerInterface $c) {
+                    $template = $this->_openTemplate('templates/application-holder.html');
+
+                    return $c->get('eddbk_front_template_factory')->make([
+                        TemplateFactoryInterface::K_TEMPLATE => $template,
+                    ]);
+                },
+
+                /*
                  * Template that holds all components templates.
                  * 
                  * @since [*next-version*]
@@ -203,7 +216,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  */
                 'eddbk_wizard_main_component_handler' => function (ContainerInterface $c) {
                     return new MainComponentHandler(
-                        $c->get('bookings_front_ui/holder_template'),
+                        $c->get('eddbk_front_app_holder_template'),
                         $c->get('bookings_front_ui/edd_settings/purchase_page')
                     );
                 },

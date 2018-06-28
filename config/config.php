@@ -2,7 +2,6 @@
 
 return [
     'bookings_front_ui' => [
-        'holder_template' => '<div data-eddbk-wizard-holder><eddbk-wizard :config=\'%s\'></eddbk-wizard></div>',
         'edd_settings' => get_option('edd_settings'),
 
         /*
