@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
        * @since [*next-version*]
        *
        * @property {string} applicationSelector Application selector for UI framework (UI framework will mount application to each of them).
-       * @property {{bookings: string, services: string}} apiBaseUrls Map of resources names to their urls.
+       * @property {{bookings: string, services: string}} apiEndpointUrls Map of endpoint name to its API url.
        * @property {string} initialBookingTransition Name of booking transition for creating booking.
        * @property {object} datetimeFormats Map of datetime keys to datetime formats for formatting datetimes in application.
        */
@@ -97,12 +97,12 @@ document.addEventListener('DOMContentLoaded', function () {
           sessions: {
             'fetch': {
               'method': 'get',
-              'endpoint': 'http://scotchbox.local/index.php?rest_route=/eddbk/v1/sessions/',
+              'endpoint': container.state.apiEndpointUrls.sessions,
             }
           }
         },
-        bookingsResourceUrl: container.state.apiBaseUrls.bookings,
-        servicesResourceUrl: container.state.apiBaseUrls.services,
+        bookingsResourceUrl: container.state.apiEndpointUrls.bookings,
+        servicesResourceUrl: container.state.apiEndpointUrls.services,
         bookingDataMap: container.state.bookingDataMap,
         initialBookingTransition: container.state.initialBookingTransition,
         datetime: container.state.datetimeFormats
