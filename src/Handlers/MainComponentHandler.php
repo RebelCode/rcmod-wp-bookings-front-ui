@@ -36,12 +36,12 @@ class MainComponentHandler implements InvocableInterface
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable $template Template of application.
-     * @param int $cartPageId Cart page ID.
+     * @param string|Stringable $template   Template of application.
+     * @param int               $cartPageId Cart page ID.
      */
     public function __construct($template, $cartPageId)
     {
-        $this->template = $template;
+        $this->template   = $template;
         $this->cartPageId = $cartPageId;
     }
 
@@ -62,7 +62,7 @@ class MainComponentHandler implements InvocableInterface
         }
 
         $event->setParams(array_merge($event->getParams(), [
-            'content' => $this->_renderComponent($event->getParams())
+            'content' => $this->_renderComponent($event->getParams()),
         ]));
     }
 
@@ -72,6 +72,7 @@ class MainComponentHandler implements InvocableInterface
      * @since [*next-version*]
      *
      * @param $params
+     *
      * @return string
      */
     protected function _renderComponent($params = [])

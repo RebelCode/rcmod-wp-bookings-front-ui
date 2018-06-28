@@ -16,10 +16,10 @@ use Psr\EventManager\EventInterface;
  */
 class OutputTemplateHandler implements InvocableInterface
 {
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use StringTranslatingTrait;
 
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use CreateInvalidArgumentExceptionCapableTrait;
 
     /**
@@ -45,12 +45,12 @@ class OutputTemplateHandler implements InvocableInterface
      *
      * @since [*next-version*]
      *
-     * @param TemplateInterface $mainTemplate Main template in which all components templates will be rendered.
+     * @param TemplateInterface   $mainTemplate            Main template in which all components templates will be rendered.
      * @param TemplateInterface[] $pureComponentsTemplates List of components templates that should be rendered in main template.
      */
     public function __construct($mainTemplate, $pureComponentsTemplates)
     {
-        $this->mainTemplate = $mainTemplate;
+        $this->mainTemplate            = $mainTemplate;
         $this->pureComponentsTemplates = $pureComponentsTemplates;
     }
 
@@ -71,7 +71,7 @@ class OutputTemplateHandler implements InvocableInterface
         }
 
         $event->setParams([
-            'content' => $this->_renderMainTemplate()
+            'content' => $this->_renderMainTemplate(),
         ]);
     }
 

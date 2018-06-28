@@ -15,10 +15,10 @@ use Psr\EventManager\EventInterface;
  */
 class AssetsEnqueueHandler implements InvocableInterface
 {
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use StringTranslatingTrait;
 
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use CreateInvalidArgumentExceptionCapableTrait;
 
     /**
@@ -45,12 +45,12 @@ class AssetsEnqueueHandler implements InvocableInterface
      * @since [*next-version*]
      *
      * @param ContainerInterface $assetsUrlMap Container of assets urls.
-     * @param ContainerInterface $assets Container of application's assets.
+     * @param ContainerInterface $assets       Container of application's assets.
      */
     public function __construct($assetsUrlMap, $assets)
     {
         $this->assetsUrlMap = $assetsUrlMap;
-        $this->assets = $assets;
+        $this->assets       = $assets;
     }
 
     /**
@@ -78,7 +78,7 @@ class AssetsEnqueueHandler implements InvocableInterface
      * @since [*next-version*]
      *
      * @param ContainerInterface $assetsUrlMap Container of assets urls.
-     * @param ContainerInterface $assets Container of application's assets.
+     * @param ContainerInterface $assets       Container of application's assets.
      */
     protected function _enqueueAssets($assetsUrlMap, $assets)
     {

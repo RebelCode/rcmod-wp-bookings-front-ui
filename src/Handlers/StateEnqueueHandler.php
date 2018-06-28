@@ -20,16 +20,16 @@ use Traversable;
  */
 class StateEnqueueHandler implements InvocableInterface
 {
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
 
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use NormalizeStringCapableTrait;
 
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use StringTranslatingTrait;
 
-    /** @since [*next-version*] */
+    /* @since [*next-version*] */
     use CreateInvalidArgumentExceptionCapableTrait;
 
     /**
@@ -82,11 +82,11 @@ class StateEnqueueHandler implements InvocableInterface
      *
      * @since [*next-version*]
      *
-     * @param string|Stringable $applicationSelector Application container's CSS selector.
-     * @param MapInterface|array|stdClass $apiBaseUrls List of base urls for API endpoints.
-     * @param MapInterface|array|stdClass $bookingDataMap Map of additional booking fields to their aliases for client.
-     * @param string|Stringable $initialBookingTransition Name of initial transition for booking.
-     * @param MapInterface|array|stdClass $datetimeFormats List of datetime formats for application.
+     * @param string|Stringable           $applicationSelector      Application container's CSS selector.
+     * @param MapInterface|array|stdClass $apiBaseUrls              List of base urls for API endpoints.
+     * @param MapInterface|array|stdClass $bookingDataMap           Map of additional booking fields to their aliases for client.
+     * @param string|Stringable           $initialBookingTransition Name of initial transition for booking.
+     * @param MapInterface|array|stdClass $datetimeFormats          List of datetime formats for application.
      */
     public function __construct(
         $applicationSelector,
@@ -94,13 +94,12 @@ class StateEnqueueHandler implements InvocableInterface
         $bookingDataMap,
         $initialBookingTransition,
         $datetimeFormats
-    )
-    {
-        $this->applicationSelector = $this->_normalizeString($applicationSelector);
-        $this->apiBaseUrls = $apiBaseUrls;
-        $this->bookingDataMap = $bookingDataMap;
+    ) {
+        $this->applicationSelector      = $this->_normalizeString($applicationSelector);
+        $this->apiBaseUrls              = $apiBaseUrls;
+        $this->bookingDataMap           = $bookingDataMap;
         $this->initialBookingTransition = $this->_normalizeString($initialBookingTransition);
-        $this->datetimeFormats = $datetimeFormats;
+        $this->datetimeFormats          = $datetimeFormats;
     }
 
     /**
@@ -130,11 +129,11 @@ class StateEnqueueHandler implements InvocableInterface
     protected function _enqueueState()
     {
         wp_localize_script('eddbk-wizard-app', 'EDDBK_WIZARD_APP_STATE', [
-            'applicationSelector' => $this->applicationSelector,
-            'apiBaseUrls' => $this->_getApiBaseUrls($this->apiBaseUrls),
-            'bookingDataMap' => $this->_normalizeArray($this->bookingDataMap),
+            'applicationSelector'      => $this->applicationSelector,
+            'apiBaseUrls'              => $this->_getApiBaseUrls($this->apiBaseUrls),
+            'bookingDataMap'           => $this->_normalizeArray($this->bookingDataMap),
             'initialBookingTransition' => $this->initialBookingTransition,
-            'datetimeFormats' => $this->_normalizeArray($this->datetimeFormats),
+            'datetimeFormats'          => $this->_normalizeArray($this->datetimeFormats),
         ]);
     }
 
