@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   function defineServices (di, dependencies) {
-    var serviceList = dependencies.bookingWizard.services(dependencies, document)
+    var serviceList = dependencies.bookingWizard.makeServices(dependencies)
 
     serviceList['state'] = function () {
       /**
