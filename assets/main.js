@@ -111,6 +111,19 @@ document.addEventListener('DOMContentLoaded', function () {
     serviceList['document'] = function () {
       return document
     }
+    serviceList['handleBookSuccess'] = function () {
+      /**
+       * Function for handling booking success.
+       * `this` - is application Vue component inside function scope.
+       *
+       * @since [*next-version*]
+       */
+      return function () {
+        if (this.config.redirectUrl) {
+          window.location.href = this.config.redirectUrl
+        }
+      }
+    }
 
     for (var i = 0; i < Object.keys(serviceList).length; i++) {
       var serviceName = Object.keys(serviceList)[i]
