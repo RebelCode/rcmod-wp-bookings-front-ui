@@ -51,7 +51,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function setup()
     {
-        return $this->_setupContainer($this->_loadPhpConfigFile(WP_BOOKINGS_FRONT_UI_MODULE_CONFIG), [
+        return $this->_setupContainer($this->_loadPhpConfigFile(RC_BOOKINGS_FRONT_UI_MODULE_CONFIG), [
             /*
              * Templates factory.
              *
@@ -206,7 +206,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     protected function _makeTemplate($templateFactory, $templateFile)
     {
-        $templatePath = WP_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR
+        $templatePath = RC_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR
             . 'templates' . DIRECTORY_SEPARATOR . $templateFile;
 
         $templateContent = file_get_contents($templatePath);

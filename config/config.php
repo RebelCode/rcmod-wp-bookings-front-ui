@@ -37,7 +37,7 @@ return [
             'notes' => 'notes'
         ],
 
-        'assets_urls_map_path' => WP_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',
+        'assets_urls_map_path' => RC_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',
         'assets' => [
             'require.js' => 'require',
             'wizard' => [
