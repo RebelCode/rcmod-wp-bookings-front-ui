@@ -4,6 +4,7 @@ namespace RebelCode\Bookings\WordPress\Module;
 
 use Dhii\Data\Container\ContainerFactoryInterface;
 use Dhii\Event\EventFactoryInterface;
+use Dhii\Output\TemplateInterface;
 use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Bookings\WordPress\Module\Handlers\AssetsEnqueueHandler;
@@ -72,11 +73,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_app_holder_template' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/application-holder.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'application-holder.html');
                 },
 
                 /*
@@ -85,11 +82,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_components_templates' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/components/index.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/index.html');
                 },
 
                 /*
@@ -98,11 +91,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_wizard_template' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/components/eddbk-wizard.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/eddbk-wizard.html');
                 },
 
                 /*
@@ -111,11 +100,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_confirmation_step_template' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/components/wizard-confirmation-step.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/wizard-confirmation-step.html');
                 },
 
                 /*
@@ -124,11 +109,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_session_step_template' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/components/wizard-session-step.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/wizard-session-step.html');
                 },
 
                 /*
@@ -137,11 +118,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_service_step_template' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/components/wizard-service-step.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/wizard-service-step.html');
                 },
 
                 /*
@@ -150,11 +127,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                  * @since [*next-version*]
                  */
                 'eddbk_front_session_selector_template' => function (ContainerInterface $c) {
-                    $template = $this->_openTemplate('templates/components/session-selector.html');
-
-                    return $c->get('eddbk_front_template_factory')->make([
-                        TemplateFactoryInterface::K_TEMPLATE => $template,
-                    ]);
+                    return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/session-selector.html');
                 },
 
                 /*
@@ -223,19 +196,25 @@ class WpBookingsFrontUi extends AbstractBaseModule
     }
 
     /**
-     * Get content of template file.
-     * 
+     * Create template instance from file.
+     *
      * @since [*next-version*]
-     * 
-     * @param string $templateFile Template file for reading.
-     * 
-     * @return string Content of given template file.
+     *
+     * @param TemplateFactoryInterface $templateFactory Template factory for creating template.
+     * @param string                   $templateFile    Template file for reading.
+     *
+     * @return TemplateInterface The created template.
      */
-    protected function _openTemplate($templateFile)
+    protected function _makeTemplate($templateFactory, $templateFile)
     {
-        $templatePath = WP_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR . $templateFile;
+        $templatePath = WP_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR
+            . 'templates' . DIRECTORY_SEPARATOR . $templateFile;
 
-        return file_get_contents($templatePath);
+        $templateContent = file_get_contents($templatePath);
+
+        return $templateFactory->make([
+            TemplateFactoryInterface::K_TEMPLATE => $templateContent,
+        ]);
     }
 
     /**
