@@ -74,9 +74,9 @@
 
 <script type="text/x-template" id="date-navigator-template">
     <div class="eddb-control-appointment__header">
-        <span><button @click="goToPrevDay" :disabled="!prevAvailableDay">&#9664;</button></span>
+        <span class="eddbk-nav-button eddbk-nav-button__prev" @click="goToPrevDay" :class="!prevAvailableDay ? 'disabled' : ''"></span>
         <span>{{ selectedDaySessionsLabel }}</span>
-        <span><button @click="goToNextDay" :disabled="!nextAvailableDay">&#9654;</button></span>
+        <span class="eddbk-nav-button eddbk-nav-button__next" @click="goToNextDay" :class="!nextAvailableDay ? 'disabled' : ''"></span>
     </div>
 </script>
 

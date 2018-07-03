@@ -7,7 +7,7 @@
     "build": "./node_modules/webpack/bin/webpack.js -p"
   },
   "devDependencies": {
-    "@rebelcode/booking-wizard": "git://github.com/RebelCode/booking-wizard.git#task/initial-implementation",
+    "@rebelcode/booking-wizard": "git://github.com/RebelCode/booking-wizard.git#task/improving-style",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",
     "fast-sass-loader": "^1.4.0",
