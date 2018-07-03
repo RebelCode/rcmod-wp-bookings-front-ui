@@ -22,7 +22,7 @@ return [
             'datetime' => [
                 'sessionTime' => 'h:mm a',
                 'dayFull' => 'dddd Do MMMM YYYY',
-                'dayShort' => 'D MMMM YYYY',
+                'dayShort' => 'dddd Do MMMM',
                 'dayKey' => 'YYYY-MM-DD',
                 'appointmentStart' => 'h:mm a \o\\n dddd Do MMMM YYYY'
             ]
