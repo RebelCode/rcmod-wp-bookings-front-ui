@@ -111,6 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
     serviceList['document'] = function () {
       return document
     }
+    /**
+     * Current browser's timezone.
+     *
+     * @since [*next-version*]
+     *
+     * @param {object} container The application container.
+     *
+     * @return {string} Current browser's timezone.
+     */
+    serviceList['browserTimezone'] = function (container) {
+      return container.moment.tz.guess()
+    }
     serviceList['handleBookSuccess'] = function () {
       /**
        * Function for handling booking success.
