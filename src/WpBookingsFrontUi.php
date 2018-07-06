@@ -206,8 +206,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     protected function _makeTemplate($templateFactory, $templateFile)
     {
-        $templatePath = RC_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR
-            . 'templates' . DIRECTORY_SEPARATOR . $templateFile;
+        $templatePath = RC_BOOKINGS_FRONT_UI_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $templateFile;
 
         $templateContent = file_get_contents($templatePath);
 
