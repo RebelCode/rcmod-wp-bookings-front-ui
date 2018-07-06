@@ -1,4 +1,5 @@
 <?php
+
 use Psr\Container\ContainerInterface;
 use \RebelCode\Bookings\WordPress\Module\WpBookingsFrontUi;
 
