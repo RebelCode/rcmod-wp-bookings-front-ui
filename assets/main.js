@@ -142,4 +142,19 @@ document.addEventListener('DOMContentLoaded', function () {
       di.factory(serviceName, serviceList[serviceName])
     }
   }
+
+  function loadCss(url) {
+    var link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+
+  if (EDDBK_WIZARD_REQUIRE_STYLES) {
+    for (var i = 0; i < EDDBK_WIZARD_REQUIRE_STYLES.length; i++) {
+      var styleLink = EDDBK_WIZARD_REQUIRE_STYLES[i]
+      loadCss(styleLink)
+    }
+  }
 })

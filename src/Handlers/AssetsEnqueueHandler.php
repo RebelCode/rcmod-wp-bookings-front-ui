@@ -105,8 +105,10 @@ class AssetsEnqueueHandler implements InvocableInterface
         /*
          * Enqueue all styles from assets URL map
          */
-        foreach ($assets->get('styles') as $styleId => $styleDependency) {
-            wp_enqueue_style('eddbk-wizard-app-' . $styleId, $assetsUrlMap->get($styleDependency));
+        $stylesMap = [];
+        foreach ($assets->get('styles') as $styleDependency) {
+            $stylesMap[] = $assetsUrlMap->get($styleDependency);
         }
+        wp_localize_script('eddbk-wizard-app-require', 'EDDBK_WIZARD_REQUIRE_STYLES', $stylesMap);
     }
 }

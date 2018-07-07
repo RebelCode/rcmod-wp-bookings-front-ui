@@ -8,8 +8,6 @@ use Dhii\Output\TemplateInterface;
 use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Bookings\WordPress\Module\Handlers\AssetsEnqueueHandler;
-use RebelCode\Bookings\WordPress\Module\Handlers\MainComponentHandler;
-use RebelCode\Bookings\WordPress\Module\Handlers\OutputTemplateHandler;
 use RebelCode\Bookings\WordPress\Module\Handlers\StateEnqueueHandler;
 use RebelCode\Modular\Module\AbstractBaseModule;
 use Dhii\Util\String\StringableInterface as Stringable;
@@ -72,6 +70,20 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     $c->get('bookings_front_ui/templates_config/token_start'),
                     $c->get('bookings_front_ui/templates_config/token_end'),
                     $c->get('bookings_front_ui/templates_config/token_default')
+                );
+            },
+
+            /*
+             * Wizard block factory.
+             *
+             * @since [*next-version*]
+             */
+            'eddbk_wizard_block_factory' => function (ContainerInterface $c) {
+                return new WizardBlockFactory(
+                    $c->get('eddbk_front_app_holder_template'),
+                    $c->get('eddbk_wizard_components_templates'),
+                    $c->get('event_manager'),
+                    $c->get('event_factory')
                 );
             },
 
@@ -143,13 +155,13 @@ class WpBookingsFrontUi extends AbstractBaseModule
              *
              * @since [*next-version*]
              */
-            'eddbk_wizard_components_templates_handler' => function (ContainerInterface $c) {
-                return new OutputTemplateHandler($c->get('eddbk_front_components_templates'), [
-                    'eddbkWizardTemplate'            => $c->get('eddbk_front_wizard_template'),
-                    'sessionSelectorTemplate'        => $c->get('eddbk_front_session_selector_template'),
-                    'wizardServiceStepTemplate'      => $c->get('eddbk_front_service_step_template'),
-                    'wizardSessionStepTemplate'      => $c->get('eddbk_front_session_step_template'),
-                    'wizardConfirmationStepTemplate' => $c->get('eddbk_front_confirmation_step_template'),
+            'eddbk_wizard_components_templates' => function (ContainerInterface $c) {
+                return $c->get('eddbk_front_components_templates')->render([
+                    'eddbkWizardTemplate'            => $c->get('eddbk_front_wizard_template')->render(),
+                    'sessionSelectorTemplate'        => $c->get('eddbk_front_session_selector_template')->render(),
+                    'wizardServiceStepTemplate'      => $c->get('eddbk_front_service_step_template')->render(),
+                    'wizardSessionStepTemplate'      => $c->get('eddbk_front_session_step_template')->render(),
+                    'wizardConfirmationStepTemplate' => $c->get('eddbk_front_confirmation_step_template')->render(),
                 ]);
             },
 
@@ -190,17 +202,6 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     $c->get('bookings_front_ui/formats/datetime')
                 );
             },
-
-            /*
-             * Handles for outputting main component of application.
-             *
-             * @since [*next-version*]
-             */
-            'eddbk_wizard_main_component_handler' => function (ContainerInterface $c) {
-                return new MainComponentHandler(
-                    $c->get('eddbk_front_app_holder_template')
-                );
-            },
         ]);
     }
 
@@ -233,12 +234,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
     {
         $this->templateFactory = $c->get('eddbk_front_template_factory');
 
-        $this->_attach('eddbk_wizard_components_templates', $c->get('eddbk_wizard_components_templates_handler'));
-
         $this->_attach('eddbk_wizard_enqueue_assets', $c->get('eddbk_wizard_enqueue_assets_handler'));
 
         $this->_attach('eddbk_wizard_enqueue_app_state', $c->get('eddbk_wizard_enqueue_app_state_handler'));
-
-        $this->_attach('eddbk_wizard_main_component', $c->get('eddbk_wizard_main_component_handler'));
     }
 }
