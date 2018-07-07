@@ -11,6 +11,7 @@ return [
             'token_default' => '',
         ],
 
+        'state_var_name'       => 'EDDBK_WIZARD_APP_STATE',
         'application_selector' => '[data-eddbk-wizard-holder]',
         'api_endpoint_urls'    => [
             'bookings' => '/eddbk/v1/bookings/',

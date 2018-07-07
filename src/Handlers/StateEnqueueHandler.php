@@ -32,6 +32,15 @@ class StateEnqueueHandler implements InvocableInterface
     use CreateInvalidArgumentExceptionCapableTrait;
 
     /**
+     * State variable name.
+     *
+     * @since [*next-version*]
+     *
+     * @var Stringable|string
+     */
+    protected $stateVarName;
+
+    /**
      * Application container's CSS selector.
      *
      * @since [*next-version*]
@@ -81,6 +90,7 @@ class StateEnqueueHandler implements InvocableInterface
      *
      * @since [*next-version*]
      *
+     * @param string|Stringable           $stateVarName             State variable name.
      * @param string|Stringable           $applicationSelector      Application container's CSS selector.
      * @param MapInterface|array|stdClass $apiEndpointUrls          Map of endpoint name to its API url.
      * @param MapInterface|array|stdClass $bookingDataMap           Map of additional booking fields to their aliases for client.
@@ -88,6 +98,7 @@ class StateEnqueueHandler implements InvocableInterface
      * @param MapInterface|array|stdClass $datetimeFormats          List of datetime formats for application.
      */
     public function __construct(
+        $stateVarName,
         $applicationSelector,
         $apiEndpointUrls,
         $bookingDataMap,
@@ -127,7 +138,7 @@ class StateEnqueueHandler implements InvocableInterface
      */
     protected function _enqueueState()
     {
-        wp_localize_script('eddbk-wizard-app', 'EDDBK_WIZARD_APP_STATE', [
+        wp_localize_script('eddbk-wizard-app', $this->stateVarName, [
             'applicationSelector'      => $this->applicationSelector,
             'apiEndpointUrls'          => $this->_getApiEndpointUrls($this->apiEndpointUrls),
             'bookingDataMap'           => $this->_normalizeArray($this->bookingDataMap),
