@@ -19,6 +19,15 @@ use Dhii\Output\TemplateFactoryInterface;
 class WpBookingsFrontUi extends AbstractBaseModule
 {
     /**
+     * Template factory for creating template.
+     *
+     * @since [*next-version*]
+     *
+     * @var TemplateFactoryInterface
+     */
+    protected $templateFactory;
+
+    /**
      * Constructor.
      *
      * @since [*next-version*]
@@ -72,7 +81,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_app_holder_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'application-holder.html');
+                return $this->_makeTemplate('application-holder.html');
             },
 
             /*
@@ -81,7 +90,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_components_templates' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/index.html');
+                return $this->_makeTemplate('components/index.html');
             },
 
             /*
@@ -90,7 +99,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_wizard_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/eddbk-wizard.html');
+                return $this->_makeTemplate('components/eddbk-wizard.html');
             },
 
             /*
@@ -99,7 +108,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_confirmation_step_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/wizard-confirmation-step.html');
+                return $this->_makeTemplate('components/wizard-confirmation-step.html');
             },
 
             /*
@@ -108,7 +117,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_session_step_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/wizard-session-step.html');
+                return $this->_makeTemplate('components/wizard-session-step.html');
             },
 
             /*
@@ -117,7 +126,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_service_step_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/wizard-service-step.html');
+                return $this->_makeTemplate('components/wizard-service-step.html');
             },
 
             /*
@@ -126,7 +135,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_session_selector_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate($c->get('eddbk_front_template_factory'), 'components/session-selector.html');
+                return $this->_makeTemplate('components/session-selector.html');
             },
 
             /*
@@ -173,6 +182,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              */
             'eddbk_wizard_enqueue_app_state_handler' => function (ContainerInterface $c) {
                 return new StateEnqueueHandler(
+                    $c->get('bookings_front_ui/state_var_name'),
                     $c->get('bookings_front_ui/application_selector'),
                     $c->get('bookings_front_ui/api_endpoint_urls'),
                     $c->get('bookings_front_ui/booking_data_map'),
@@ -199,19 +209,17 @@ class WpBookingsFrontUi extends AbstractBaseModule
      *
      * @since [*next-version*]
      *
-     * @param TemplateFactoryInterface $templateFactory Template factory for creating template.
-     * @param string                   $templateFile    Template file for reading.
+     * @param string $templateFile Template file for reading.
      *
      * @return TemplateInterface The created template.
      */
-    protected function _makeTemplate($templateFactory, $templateFile)
+    protected function _makeTemplate($templateFile)
     {
-        $templatePath = RC_BOOKINGS_FRONT_UI_MODULE_DIR . DIRECTORY_SEPARATOR
-            . 'templates' . DIRECTORY_SEPARATOR . $templateFile;
+        $templatePath = RC_BOOKINGS_FRONT_UI_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $templateFile;
 
         $templateContent = file_get_contents($templatePath);
 
-        return $templateFactory->make([
+        return $this->templateFactory->make([
             TemplateFactoryInterface::K_TEMPLATE => $templateContent,
         ]);
     }
@@ -223,6 +231,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     public function run(ContainerInterface $c = null)
     {
+        $this->templateFactory = $c->get('eddbk_front_template_factory');
+
         $this->_attach('eddbk_wizard_components_templates', $c->get('eddbk_wizard_components_templates_handler'));
 
         $this->_attach('eddbk_wizard_enqueue_assets', $c->get('eddbk_wizard_enqueue_assets_handler'));
