@@ -105,6 +105,7 @@ class StateEnqueueHandler implements InvocableInterface
         $initialBookingTransition,
         $datetimeFormats
     ) {
+        $this->stateVarName             = $stateVarName;
         $this->applicationSelector      = $this->_normalizeString($applicationSelector);
         $this->apiEndpointUrls          = $apiEndpointUrls;
         $this->bookingDataMap           = $bookingDataMap;
