@@ -38,6 +38,17 @@ return [
             'notes' => 'notes',
         ],
 
+        'wizard_template' => [
+            /*
+             * List of context keys that should be rendered as JSON strings in template.
+             *
+             * @since [*next-version*]
+             */
+            'context_json_strings' => [
+                'config',
+            ],
+        ],
+
         'assets_urls_map_path' => RC_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',
         'assets'               => [
             'require.js' => 'require',

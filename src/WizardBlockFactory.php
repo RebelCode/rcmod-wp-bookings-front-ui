@@ -13,6 +13,7 @@ use Dhii\Factory\FactoryInterface;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeStringCapableTrait;
+use Dhii\Util\String\StringableInterface as Stringable;
 use Psr\EventManager\EventManagerInterface;
 
 /**
@@ -47,31 +48,31 @@ class WizardBlockFactory implements FactoryInterface
     use CreateOutOfRangeExceptionCapableTrait;
 
     /**
-     * Config key of attributes.
+     * Config key of context.
      *
      * @since [*next-version*]
      *
      * @var string
      */
-    const K_CFG_ATTRIBUTES = 'attributes';
+    const K_CFG_CONTEXT = 'context';
 
     /**
-     * Main application template.
+     * Wizard template.
      *
      * @since [*next-version*]
      *
      * @var TemplateInterface
      */
-    protected $mainTemplate;
+    protected $wizardTemplate;
 
     /**
-     * Rendered components templates.
+     * Components templates.
      *
      * @since [*next-version*]
      *
-     * @var string
+     * @var string|Stringable
      */
-    protected $renderedComponents;
+    protected $componentsTemplates;
 
     /**
      * The event manager.
@@ -96,21 +97,21 @@ class WizardBlockFactory implements FactoryInterface
      *
      * @since [*next-version*]
      *
-     * @param TemplateInterface     $mainTemplate       Main application template.
-     * @param string                $renderedComponents Rendered components templates.
-     * @param EventManagerInterface $eventManager       The event manager.
-     * @param EventFactoryInterface $eventFactory       The event factory.
+     * @param TemplateInterface     $wizardTemplate      Wizard template.
+     * @param string|Stringable     $componentsTemplates Components templates.
+     * @param EventManagerInterface $eventManager        The event manager.
+     * @param EventFactoryInterface $eventFactory        The event factory.
      */
     public function __construct(
-        $mainTemplate,
-        $renderedComponents,
+        $wizardTemplate,
+        $componentsTemplates,
         $eventManager,
         $eventFactory
     ) {
-        $this->mainTemplate       = $mainTemplate;
-        $this->renderedComponents = $renderedComponents;
-        $this->eventManager       = $eventManager;
-        $this->eventFactory       = $eventFactory;
+        $this->wizardTemplate      = $wizardTemplate;
+        $this->componentsTemplates = $componentsTemplates;
+        $this->eventManager        = $eventManager;
+        $this->eventFactory        = $eventFactory;
     }
 
     /**
@@ -122,12 +123,12 @@ class WizardBlockFactory implements FactoryInterface
      */
     public function make($config = null)
     {
-        $attributes = $this->_containerGet($config, static::K_CFG_ATTRIBUTES);
+        $context = $this->_containerGet($config, static::K_CFG_CONTEXT);
 
         return new WizardBlock(
-            $attributes,
-            $this->mainTemplate,
-            $this->renderedComponents,
+            $context,
+            $this->wizardTemplate,
+            $this->componentsTemplates,
             $this->eventManager,
             $this->eventFactory
         );

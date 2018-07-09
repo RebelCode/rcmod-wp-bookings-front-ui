@@ -2,13 +2,14 @@
 
 namespace RebelCode\Bookings\WordPress\Module;
 
+use Dhii\Collection\MapInterface;
 use Dhii\Event\EventFactoryInterface;
 use Dhii\Output\BlockInterface;
 use Dhii\Output\TemplateInterface;
+use Dhii\Util\String\StringableInterface as Stringable;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Modular\Events\EventsConsumerTrait;
 use stdClass;
-use Traversable;
 
 /**
  * Class for showing wizard and enqueuing all assets that are related to it.
@@ -30,53 +31,53 @@ class WizardBlock implements BlockInterface
     protected static $isAssetsAttached = false;
 
     /**
-     * Main application template.
+     * Wizard template.
      *
      * @since [*next-version*]
      *
      * @var TemplateInterface
      */
-    protected $mainTemplate;
+    protected $wizardTemplate;
 
     /**
-     * List of attributes for wizard.
+     * Context of wizard template.
      *
      * @since [*next-version*]
      *
-     * @var array|Traversable|stdClass
+     * @var array|MapInterface|stdClass
      */
-    protected $attributes;
+    protected $context;
 
     /**
-     * Rendered components templates.
+     * Components templates.
      *
      * @since [*next-version*]
      *
-     * @var string
+     * @var string|Stringable
      */
-    protected $renderedComponents;
+    protected $componentsTemplates;
 
     /**
      * WizardBlock constructor.
      *
      * @since [*next-version*]
      *
-     * @param array|stdClass|Traversable $attributes         List of attributes for wizard.
-     * @param TemplateInterface          $mainTemplate       Main application template.
-     * @param string                     $renderedComponents Rendered components templates.
-     * @param EventManagerInterface      $eventManager       The event manager.
-     * @param EventFactoryInterface      $eventFactory       The event factory.
+     * @param array|stdClass|MapInterface $context             Context of wizard template.
+     * @param TemplateInterface           $wizardTemplate      Wizard template.
+     * @param string|Stringable           $componentsTemplates Components templates.
+     * @param EventManagerInterface       $eventManager        The event manager.
+     * @param EventFactoryInterface       $eventFactory        The event factory.
      */
     public function __construct(
-        $attributes,
-        $mainTemplate,
-        $renderedComponents,
+        $context,
+        $wizardTemplate,
+        $componentsTemplates,
         $eventManager,
         $eventFactory
     ) {
-        $this->mainTemplate       = $mainTemplate;
-        $this->attributes         = $attributes;
-        $this->renderedComponents = $renderedComponents;
+        $this->wizardTemplate      = $wizardTemplate;
+        $this->context             = $context;
+        $this->componentsTemplates = $componentsTemplates;
 
         $this->_setEventManager($eventManager);
         $this->_setEventFactory($eventFactory);
@@ -94,13 +95,11 @@ class WizardBlock implements BlockInterface
             $this->_trigger('eddbk_wizard_enqueue_assets');
             $this->_trigger('eddbk_wizard_enqueue_app_state');
             $this->_attach('wp_footer', function () {
-                echo $this->renderedComponents;
+                echo $this->componentsTemplates;
             });
         }
 
-        return $this->mainTemplate->render([
-            'config' => json_encode($this->attributes),
-        ]);
+        return $this->wizardTemplate->render($this->context);
     }
 
     /**

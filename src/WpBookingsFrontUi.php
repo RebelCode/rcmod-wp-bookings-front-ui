@@ -5,6 +5,7 @@ namespace RebelCode\Bookings\WordPress\Module;
 use Dhii\Data\Container\ContainerFactoryInterface;
 use Dhii\Event\EventFactoryInterface;
 use Dhii\Output\TemplateInterface;
+use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Bookings\WordPress\Module\Handlers\AssetsEnqueueHandler;
@@ -16,6 +17,9 @@ use Dhii\Output\TemplateFactoryInterface;
 
 class WpBookingsFrontUi extends AbstractBaseModule
 {
+    /* @since [*next-version*] */
+    use NormalizeArrayCapableTrait;
+
     /**
      * Template factory for creating template.
      *
@@ -93,7 +97,13 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_app_holder_template' => function (ContainerInterface $c) {
-                return $this->_makeTemplate('application-holder.html');
+                return new JsonStringPlaceholderTemplate(
+                    $this->_getTemplateContent('application-holder.html'),
+                    $c->get('bookings_front_ui/templates_config/token_start'),
+                    $c->get('bookings_front_ui/templates_config/token_end'),
+                    $c->get('bookings_front_ui/templates_config/token_default'),
+                    $this->_normalizeArray($c->get('bookings_front_ui/wizard_template/context_json_strings'))
+                );
             },
 
             /*
@@ -216,13 +226,27 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     protected function _makeTemplate($templateFile)
     {
-        $templatePath = RC_BOOKINGS_FRONT_UI_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $templateFile;
-
-        $templateContent = file_get_contents($templatePath);
+        $templateContent = $this->_getTemplateContent($templateFile);
 
         return $this->templateFactory->make([
             TemplateFactoryInterface::K_TEMPLATE => $templateContent,
         ]);
+    }
+
+    /**
+     * Get content of template file.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $templateFile Template file for reading.
+     *
+     * @return string The content of template.
+     */
+    protected function _getTemplateContent($templateFile)
+    {
+        $templatePath = RC_BOOKINGS_FRONT_UI_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $templateFile;
+
+        return file_get_contents($templatePath);
     }
 
     /**
