@@ -2,13 +2,13 @@
 
 namespace RebelCode\Bookings\WordPress\Module;
 
-use Dhii\Collection\MapInterface;
 use Dhii\Event\EventFactoryInterface;
 use Dhii\Output\BlockInterface;
 use Dhii\Output\TemplateInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Modular\Events\EventsConsumerTrait;
 use stdClass;
+use Traversable;
 
 /**
  * Class for showing wizard and enqueuing all assets that are related to it.
@@ -43,7 +43,7 @@ class WizardBlock implements BlockInterface
      *
      * @since [*next-version*]
      *
-     * @var array|MapInterface|stdClass
+     * @var array|Traversable|stdClass
      */
     protected $attributes;
 
@@ -61,11 +61,11 @@ class WizardBlock implements BlockInterface
      *
      * @since [*next-version*]
      *
-     * @param array|stdClass|MapInterface $attributes         List of attributes for wizard.
-     * @param TemplateInterface           $mainTemplate       Main application template.
-     * @param string                      $renderedComponents Rendered components templates.
-     * @param EventManagerInterface       $eventManager       The event manager.
-     * @param EventFactoryInterface       $eventFactory       The event factory.
+     * @param array|stdClass|Traversable $attributes         List of attributes for wizard.
+     * @param TemplateInterface          $mainTemplate       Main application template.
+     * @param string                     $renderedComponents Rendered components templates.
+     * @param EventManagerInterface      $eventManager       The event manager.
+     * @param EventFactoryInterface      $eventFactory       The event factory.
      */
     public function __construct(
         $attributes,
