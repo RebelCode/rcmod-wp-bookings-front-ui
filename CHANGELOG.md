@@ -6,8 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
 ### Changed
+- Wizard template moved from config to templates.
 - Using new implementation of booking client (on top of the UI Framework).
 - Templates of UI moved to this module.
+- Enqueuing styles and scripts if consumer renders wizard application.
+
 
 ## [0.1-alpha6] - 2018-06-12
 ### Changed
