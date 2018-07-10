@@ -5,7 +5,7 @@ namespace RebelCode\Bookings\WordPress\Module;
 use Dhii\Data\Container\ContainerFactoryInterface;
 use Dhii\Event\EventFactoryInterface;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
+use Dhii\Util\Normalization\NormalizeIterableCapableTrait;
 use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Bookings\WordPress\Module\Handlers\AssetsEnqueueHandler;
@@ -18,7 +18,7 @@ use Dhii\Output\TemplateFactoryInterface;
 class WpBookingsFrontUi extends AbstractBaseModule
 {
     /* @since [*next-version*] */
-    use NormalizeArrayCapableTrait;
+    use NormalizeIterableCapableTrait;
 
     /**
      * Template factory for creating template.
@@ -102,7 +102,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     $c->get('bookings_front_ui/templates_config/token_start'),
                     $c->get('bookings_front_ui/templates_config/token_end'),
                     $c->get('bookings_front_ui/templates_config/token_default'),
-                    $this->_normalizeArray($c->get('bookings_front_ui/wizard_template/context_json_strings'))
+                    $this->_normalizeIterable($c->get('bookings_front_ui/wizard_template/context_json_keys'))
                 );
             },
 

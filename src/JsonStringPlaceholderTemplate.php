@@ -2,9 +2,6 @@
 
 namespace RebelCode\Bookings\WordPress\Module;
 
-use Dhii\Data\Container\ContainerGetCapableTrait;
-use Dhii\Data\Container\ContainerHasCapableTrait;
-use Dhii\Data\Container\ContainerSetCapableTrait;
 use Dhii\Data\Container\CreateContainerExceptionCapableTrait;
 use Dhii\Data\Container\CreateNotFoundExceptionCapableTrait;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
@@ -14,6 +11,7 @@ use Dhii\I18n\StringTranslatorConsumingTrait;
 use Dhii\Output\AbstractBasePlaceholderTemplate;
 use Dhii\Regex\GetAllMatchesRegexCapablePcreTrait;
 use Dhii\Regex\QuoteRegexCapablePcreTrait;
+use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Dhii\Util\String\StringableReplaceCapableTrait;
 use Dhii\Util\String\StringableInterface as Stringable;
 use InvalidArgumentException;
@@ -56,13 +54,7 @@ class JsonStringPlaceholderTemplate extends AbstractBasePlaceholderTemplate
     use CreateInvalidArgumentExceptionCapableTrait;
 
     /* @since [*next-version*] */
-    use ContainerGetCapableTrait;
-
-    /* @since [*next-version*] */
-    use ContainerHasCapableTrait;
-
-    /* @since [*next-version*] */
-    use ContainerSetCapableTrait;
+    use NormalizeArrayCapableTrait;
 
     /**
      * List of fields that should be rendered as JSON strings.
@@ -101,16 +93,17 @@ class JsonStringPlaceholderTemplate extends AbstractBasePlaceholderTemplate
      */
     public function render($context = null)
     {
-        if ($context) {
-            foreach ($this->jsonStringFields as $jsonStringField) {
-                if (!$this->_containerHas($context, $jsonStringField)) {
-                    continue;
-                }
-
-                $this->_containerSet($context, $jsonStringField, json_encode($this->_containerGet($context, $jsonStringField)));
-            }
+        if (!$context) {
+            return parent::render($context);
         }
 
-        return parent::render($context);
+        $transformedContext = [];
+        $jsonKeys           = $this->_normalizeArray($this->jsonStringFields);
+
+        foreach ($context as $key => $value) {
+            $transformedContext[$key] = in_array($key, $jsonKeys) ? json_encode($value) : $value;
+        }
+
+        return parent::render($transformedContext);
     }
 }

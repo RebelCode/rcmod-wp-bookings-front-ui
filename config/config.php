@@ -44,7 +44,7 @@ return [
              *
              * @since [*next-version*]
              */
-            'context_json_strings' => [
+            'context_json_keys' => [
                 'config',
             ],
         ],
