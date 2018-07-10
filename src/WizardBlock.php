@@ -2,11 +2,12 @@
 
 namespace RebelCode\Bookings\WordPress\Module;
 
-use Dhii\Collection\MapInterface;
+use ArrayAccess;
 use Dhii\Event\EventFactoryInterface;
 use Dhii\Output\BlockInterface;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
+use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Modular\Events\EventsConsumerTrait;
 use stdClass;
@@ -44,7 +45,7 @@ class WizardBlock implements BlockInterface
      *
      * @since [*next-version*]
      *
-     * @var array|MapInterface|stdClass
+     * @var array|ArrayAccess|stdClass|ContainerInterface|null
      */
     protected $context;
 
@@ -62,11 +63,11 @@ class WizardBlock implements BlockInterface
      *
      * @since [*next-version*]
      *
-     * @param array|stdClass|MapInterface $context             Context of wizard template.
-     * @param TemplateInterface           $wizardTemplate      Wizard template.
-     * @param string|Stringable           $componentsTemplates Components templates.
-     * @param EventManagerInterface       $eventManager        The event manager.
-     * @param EventFactoryInterface       $eventFactory        The event factory.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context             Context of wizard template.
+     * @param TemplateInterface                                  $wizardTemplate      Wizard template.
+     * @param string|Stringable                                  $componentsTemplates Components templates.
+     * @param EventManagerInterface                              $eventManager        The event manager.
+     * @param EventFactoryInterface                              $eventFactory        The event factory.
      */
     public function __construct(
         $context,

@@ -97,13 +97,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              * @since [*next-version*]
              */
             'eddbk_front_app_holder_template' => function (ContainerInterface $c) {
-                return new JsonStringPlaceholderTemplate(
-                    $this->_getTemplateContent('application-holder.html'),
-                    $c->get('bookings_front_ui/templates_config/token_start'),
-                    $c->get('bookings_front_ui/templates_config/token_end'),
-                    $c->get('bookings_front_ui/templates_config/token_default'),
-                    $this->_normalizeIterable($c->get('bookings_front_ui/wizard_template/context_json_keys'))
-                );
+                return $this->_makeTemplate('application-holder.html');
             },
 
             /*
@@ -226,27 +220,13 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     protected function _makeTemplate($templateFile)
     {
-        $templateContent = $this->_getTemplateContent($templateFile);
+        $templatePath = RC_BOOKINGS_FRONT_UI_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $templateFile;
+
+        $templateContent = file_get_contents($templatePath);
 
         return $this->templateFactory->make([
             TemplateFactoryInterface::K_TEMPLATE => $templateContent,
         ]);
-    }
-
-    /**
-     * Get content of template file.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $templateFile Template file for reading.
-     *
-     * @return string The content of template.
-     */
-    protected function _getTemplateContent($templateFile)
-    {
-        $templatePath = RC_BOOKINGS_FRONT_UI_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $templateFile;
-
-        return file_get_contents($templatePath);
     }
 
     /**
