@@ -111,6 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
     serviceList['document'] = function () {
       return document
     }
+    /**
+     * Current browser's timezone.
+     *
+     * @since [*next-version*]
+     *
+     * @param {object} container The application container.
+     *
+     * @return {string} Current browser's timezone.
+     */
+    serviceList['browserTimezone'] = function (container) {
+      return container.moment.tz.guess()
+    }
     serviceList['handleBookSuccess'] = function () {
       /**
        * Function for handling booking success.
@@ -128,6 +140,21 @@ document.addEventListener('DOMContentLoaded', function () {
     for (var i = 0; i < Object.keys(serviceList).length; i++) {
       var serviceName = Object.keys(serviceList)[i]
       di.factory(serviceName, serviceList[serviceName])
+    }
+  }
+
+  function loadCss(url) {
+    var link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+
+  if (EDDBK_WIZARD_REQUIRE_STYLES) {
+    for (var i = 0; i < EDDBK_WIZARD_REQUIRE_STYLES.length; i++) {
+      var styleLink = EDDBK_WIZARD_REQUIRE_STYLES[i]
+      loadCss(styleLink)
     }
   }
 })
