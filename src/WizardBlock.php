@@ -69,11 +69,14 @@ class WizardBlock implements BlockInterface
      */
     public function render()
     {
-        $this->_trigger('before_block_render', [
+        $eventData = [
             'block'    => $this,
             'template' => $this->wizardTemplate,
             'context'  => $this->context,
-        ]);
+        ];
+
+        $this->_trigger('before_block_render', $eventData);
+        $this->_trigger('before_block_render_wizard', $eventData);
 
         return $this->wizardTemplate->render($this->context);
     }

@@ -4,7 +4,6 @@ namespace RebelCode\Bookings\WordPress\Module;
 
 use Dhii\Data\Container\ContainerFactoryInterface;
 use Dhii\Event\EventFactoryInterface;
-use Dhii\Output\BlockInterface;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeIterableCapableTrait;
 use Psr\Container\ContainerInterface;
@@ -248,11 +247,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
     {
         $this->templateFactory = $c->get('eddbk_front_template_factory');
 
-        $this->_attach('before_block_render', function (EventInterface $event) use ($c) {
-            /** @var BlockInterface $block */
-            $block = $event->getParam('block');
-
-            if (!($block instanceof WizardBlock) || $this->isAssetsAttached) {
+        $this->_attach('before_block_render_wizard', function (EventInterface $event) use ($c) {
+            if ($this->isAssetsAttached) {
                 return;
             }
 
