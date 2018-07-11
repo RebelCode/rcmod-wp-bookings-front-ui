@@ -27,8 +27,7 @@
         </div>
         <div class="inline-form-control" v-if="!isDailyDuration">
             <label>{{ 'Select available time' }}</label>
-
-            <div class="eddb-control eddb-control-appointment">
+            <div class="eddb-control eddb-control-appointment" v-if="selectedDay">
                 <date-navigator
                         :selected-day.sync="selectedDay"
                         :timezone="timezone"
@@ -43,11 +42,17 @@
                                      :sessions="selectedDaySessions"
                 ></session-time-picker>
             </div>
+            <div class="eddb-control-info" v-else>
+                {{ 'Select a date to pick a time from.' }}
+            </div>
         </div>
     </div>
 </script>
 <script type="text/x-template" id="session-date-picker-template">
-    <div>
+    <div :class="loading ? 'eddbk-disabled' : ''">
+        <div class="edd-booking-wizard__info edd-booking-wizard__info--inline" v-if="!loading && !availableSessions.length">
+            {{ 'No appointments are available this month.' }}
+        </div>
         <datepicker v-model="selectedDayProxy"
                     :inline="true"
                     @changedMonth="onMonthChange"
@@ -74,9 +79,9 @@
 
 <script type="text/x-template" id="date-navigator-template">
     <div class="eddb-control-appointment__header">
-        <span><button @click="goToPrevDay" :disabled="!!prevAvailableDay">&#9664;</button></span>
+        <span class="eddbk-nav-button eddbk-nav-button__prev" @click="goToPrevDay" :class="!prevAvailableDay ? 'disabled' : ''"></span>
         <span>{{ selectedDaySessionsLabel }}</span>
-        <span><button @click="goToNextDay" :disabled="!!nextAvailableDay">&#9654;</button></span>
+        <span class="eddbk-nav-button eddbk-nav-button__next" @click="goToNextDay" :class="!nextAvailableDay ? 'disabled' : ''"></span>
     </div>
 </script>
 
