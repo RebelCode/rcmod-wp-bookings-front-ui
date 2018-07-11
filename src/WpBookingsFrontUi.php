@@ -38,7 +38,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
      *
      * @var bool
      */
-    protected static $isAssetsAttached = false;
+    protected $isAssetsAttached = false;
 
     /**
      * Constructor.
@@ -252,18 +252,21 @@ class WpBookingsFrontUi extends AbstractBaseModule
             /** @var BlockInterface $block */
             $block = $event->getParam('block');
 
-            if (!($block instanceof WizardBlock) || static::$isAssetsAttached) {
+            if (!($block instanceof WizardBlock) || $this->isAssetsAttached) {
                 return;
             }
 
-            $c->get('eddbk_wizard_enqueue_assets_handler')($event);
-            $c->get('eddbk_wizard_enqueue_app_state_handler')($event);
+            $assetsHandler = $c->get('eddbk_wizard_enqueue_assets_handler');
+            $appStateHandler = $c->get('eddbk_wizard_enqueue_app_state_handler');
+
+            $assetsHandler($event);
+            $appStateHandler($event);
 
             $this->_attach('wp_footer', function () use ($c) {
                 echo $c->get('eddbk_wizard_components_templates');
             });
 
-            static::$isAssetsAttached = true;
+            $this->isAssetsAttached = true;
         });
     }
 }
