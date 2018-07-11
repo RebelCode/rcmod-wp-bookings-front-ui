@@ -6,7 +6,6 @@ use ArrayAccess;
 use Dhii\Event\EventFactoryInterface;
 use Dhii\Output\BlockInterface;
 use Dhii\Output\TemplateInterface;
-use Dhii\Util\String\StringableInterface as Stringable;
 use Psr\Container\ContainerInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Modular\Events\EventsConsumerTrait;
@@ -21,15 +20,6 @@ class WizardBlock implements BlockInterface
 {
     /* @since [*next-version*] */
     use EventsConsumerTrait;
-
-    /**
-     * Is assets attached already.
-     *
-     * @since [*next-version*]
-     *
-     * @var bool
-     */
-    protected static $isAssetsAttached = false;
 
     /**
      * Wizard template.
@@ -50,35 +40,23 @@ class WizardBlock implements BlockInterface
     protected $context;
 
     /**
-     * Components templates.
-     *
-     * @since [*next-version*]
-     *
-     * @var string|Stringable
-     */
-    protected $componentsTemplates;
-
-    /**
      * WizardBlock constructor.
      *
      * @since [*next-version*]
      *
-     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context             Context of wizard template.
-     * @param TemplateInterface                                  $wizardTemplate      Wizard template.
-     * @param string|Stringable                                  $componentsTemplates Components templates.
-     * @param EventManagerInterface                              $eventManager        The event manager.
-     * @param EventFactoryInterface                              $eventFactory        The event factory.
+     * @param array|ArrayAccess|stdClass|ContainerInterface|null $context        Context of wizard template.
+     * @param TemplateInterface                                  $wizardTemplate Wizard template.
+     * @param EventManagerInterface                              $eventManager   The event manager.
+     * @param EventFactoryInterface                              $eventFactory   The event factory.
      */
     public function __construct(
         $context,
         $wizardTemplate,
-        $componentsTemplates,
         $eventManager,
         $eventFactory
     ) {
-        $this->wizardTemplate      = $wizardTemplate;
-        $this->context             = $context;
-        $this->componentsTemplates = $componentsTemplates;
+        $this->wizardTemplate = $wizardTemplate;
+        $this->context        = $context;
 
         $this->_setEventManager($eventManager);
         $this->_setEventFactory($eventFactory);
@@ -91,14 +69,11 @@ class WizardBlock implements BlockInterface
      */
     public function render()
     {
-        if (!static::$isAssetsAttached) {
-            static::$isAssetsAttached = true;
-            $this->_trigger('eddbk_wizard_enqueue_assets');
-            $this->_trigger('eddbk_wizard_enqueue_app_state');
-            $this->_attach('wp_footer', function () {
-                echo $this->componentsTemplates;
-            });
-        }
+        $this->_trigger('before_block_render', [
+            'block'    => $this,
+            'template' => $this->wizardTemplate,
+            'context'  => $this->context,
+        ]);
 
         return $this->wizardTemplate->render($this->context);
     }

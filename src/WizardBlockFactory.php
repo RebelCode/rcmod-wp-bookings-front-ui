@@ -13,7 +13,6 @@ use Dhii\Factory\FactoryInterface;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeStringCapableTrait;
-use Dhii\Util\String\StringableInterface as Stringable;
 use Psr\EventManager\EventManagerInterface;
 
 /**
@@ -66,15 +65,6 @@ class WizardBlockFactory implements FactoryInterface
     protected $wizardTemplate;
 
     /**
-     * Components templates.
-     *
-     * @since [*next-version*]
-     *
-     * @var string|Stringable
-     */
-    protected $componentsTemplates;
-
-    /**
      * The event manager.
      *
      * @since [*next-version*]
@@ -97,21 +87,18 @@ class WizardBlockFactory implements FactoryInterface
      *
      * @since [*next-version*]
      *
-     * @param TemplateInterface     $wizardTemplate      Wizard template.
-     * @param string|Stringable     $componentsTemplates Components templates.
-     * @param EventManagerInterface $eventManager        The event manager.
-     * @param EventFactoryInterface $eventFactory        The event factory.
+     * @param TemplateInterface     $wizardTemplate Wizard template.
+     * @param EventManagerInterface $eventManager   The event manager.
+     * @param EventFactoryInterface $eventFactory   The event factory.
      */
     public function __construct(
         $wizardTemplate,
-        $componentsTemplates,
         $eventManager,
         $eventFactory
     ) {
-        $this->wizardTemplate      = $wizardTemplate;
-        $this->componentsTemplates = $componentsTemplates;
-        $this->eventManager        = $eventManager;
-        $this->eventFactory        = $eventFactory;
+        $this->wizardTemplate = $wizardTemplate;
+        $this->eventManager   = $eventManager;
+        $this->eventFactory   = $eventFactory;
     }
 
     /**
@@ -128,7 +115,6 @@ class WizardBlockFactory implements FactoryInterface
         return new WizardBlock(
             $context,
             $this->wizardTemplate,
-            $this->componentsTemplates,
             $this->eventManager,
             $this->eventFactory
         );

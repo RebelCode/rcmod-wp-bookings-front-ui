@@ -4,9 +4,11 @@ namespace RebelCode\Bookings\WordPress\Module;
 
 use Dhii\Data\Container\ContainerFactoryInterface;
 use Dhii\Event\EventFactoryInterface;
+use Dhii\Output\BlockInterface;
 use Dhii\Output\TemplateInterface;
 use Dhii\Util\Normalization\NormalizeIterableCapableTrait;
 use Psr\Container\ContainerInterface;
+use Psr\EventManager\EventInterface;
 use Psr\EventManager\EventManagerInterface;
 use RebelCode\Bookings\WordPress\Module\Handlers\AssetsEnqueueHandler;
 use RebelCode\Bookings\WordPress\Module\Handlers\StateEnqueueHandler;
@@ -28,6 +30,15 @@ class WpBookingsFrontUi extends AbstractBaseModule
      * @var TemplateFactoryInterface
      */
     protected $templateFactory;
+
+    /**
+     * Is wizard assets attached already.
+     *
+     * @since [*next-version*]
+     *
+     * @var bool
+     */
+    protected static $isAssetsAttached = false;
 
     /**
      * Constructor.
@@ -85,7 +96,6 @@ class WpBookingsFrontUi extends AbstractBaseModule
             'eddbk_wizard_block_factory' => function (ContainerInterface $c) {
                 return new WizardBlockFactory(
                     $c->get('eddbk_front_app_holder_template'),
-                    $c->get('eddbk_wizard_components_templates'),
                     $c->get('event_manager'),
                     $c->get('event_factory')
                 );
@@ -238,8 +248,22 @@ class WpBookingsFrontUi extends AbstractBaseModule
     {
         $this->templateFactory = $c->get('eddbk_front_template_factory');
 
-        $this->_attach('eddbk_wizard_enqueue_assets', $c->get('eddbk_wizard_enqueue_assets_handler'));
+        $this->_attach('before_block_render', function (EventInterface $event) use ($c) {
+            /** @var BlockInterface $block */
+            $block = $event->getParam('block');
 
-        $this->_attach('eddbk_wizard_enqueue_app_state', $c->get('eddbk_wizard_enqueue_app_state_handler'));
+            if (!($block instanceof WizardBlock) || static::$isAssetsAttached) {
+                return;
+            }
+
+            $c->get('eddbk_wizard_enqueue_assets_handler')($event);
+            $c->get('eddbk_wizard_enqueue_app_state_handler')($event);
+
+            $this->_attach('wp_footer', function () use ($c) {
+                echo $c->get('eddbk_wizard_components_templates');
+            });
+
+            static::$isAssetsAttached = true;
+        });
     }
 }
