@@ -3,6 +3,6 @@
 /nbproject/private/
 /test/coverage/
 /test/log/
-/dist/app.*
+/dist/
 /node_modules/
 /.idea/

@@ -1,0 +1,91 @@
+<script type="text/x-template" id="service-session-selector-template">
+    <div>
+        <div class="inline-form-control">
+            <label>{{ 'Select duration' }}</label>
+            <session-duration-picker
+                    v-model="sessionDuration"
+                    :service="service"
+            ></session-duration-picker>
+        </div>
+        <div class="inline-form-control">
+            <label>
+                {{ 'Select a date' }}
+                <span class="eddbk-loading-inline" v-if="isSessionsLoading" style="margin-left: 3px"></span>
+            </label>
+            <session-date-picker
+                    v-model="selectedDaySessions"
+                    :is-daily-duration="isDailyDuration"
+                    :selected-day.sync="selectedDay"
+                    :session.sync="session"
+                    :loading="isSessionsLoading"
+                    :selected-session-length="sessionDuration"
+                    :available-sessions="sessions"
+                    :prev-available-day.sync="prevAvailableDay"
+                    :next-available-day.sync="nextAvailableDay"
+                    @changedMonth="loadSessions"
+            ></session-date-picker>
+        </div>
+        <div class="inline-form-control" v-if="!isDailyDuration">
+            <label>{{ 'Select available time' }}</label>
+
+            <div class="eddb-control eddb-control-appointment">
+                <date-navigator
+                        :selected-day.sync="selectedDay"
+                        :timezone="timezone"
+                        :prev-available-day="prevAvailableDay"
+                        :next-available-day="nextAvailableDay"
+                ></date-navigator>
+                <session-time-picker v-model="session"
+                                     :selected-day.sync="selectedDay"
+                                     :selected-session-length="sessionDuration"
+                                     :service="service"
+                                     :timezone="timezone"
+                                     :sessions="selectedDaySessions"
+                ></session-time-picker>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" id="session-date-picker-template">
+    <div>
+        <datepicker v-model="selectedDayProxy"
+                    :inline="true"
+                    @changedMonth="onMonthChange"
+                    :open-date="openedOnDate"
+                    :disabled="{ customPredictor: isDateDisabled, to: today }"
+                    :highlighted="{ dates: sessionDays, includeDisabled: true }"
+                    class="sessions-datepicker"
+                    maximum-view="day"
+        ></datepicker>
+    </div>
+</script>
+<script type="text/x-template" id="session-time-picker-template">
+    <div class="eddb-control-appointment__body">
+        <div
+                :class="{'selected': isSelected(session) }"
+                v-for="session in visibleSessions"
+                @click="select(session)"
+                class="session__item"
+        >
+            {{ sessionLabel(session) }}
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" id="date-navigator-template">
+    <div class="eddb-control-appointment__header">
+        <span><button @click="goToPrevDay" :disabled="!!prevAvailableDay">&#9664;</button></span>
+        <span>{{ selectedDaySessionsLabel }}</span>
+        <span><button @click="goToNextDay" :disabled="!!nextAvailableDay">&#9654;</button></span>
+    </div>
+</script>
+
+<script type="text/x-template" id="session-duration-picker-template">
+    <div>
+        <select v-model="valueProxy" class="eddb-control">
+            <option :value="sessionLength" v-for="sessionLength in service.sessionLengths">
+                {{ sessionLengthLabel(sessionLength) }}
+            </option>
+        </select>
+    </div>
+</script>

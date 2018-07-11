@@ -1,0 +1,8 @@
+<script type="text/x-template" id="eddbk-session-step-template">
+    <div v-if="service">
+        <div class="edd-booking-wizard__info">
+            {{ _('You are booking a ') }} <strong>{{ service.name }}</strong>
+        </div>
+        <service-session-selector :service="service" :timezone="timezone" v-model="valueProxy"></service-session-selector>
+    </div>
+</script>

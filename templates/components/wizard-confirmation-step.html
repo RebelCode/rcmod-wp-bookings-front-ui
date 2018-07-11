@@ -1,0 +1,19 @@
+<script type="text/x-template" id="eddbk-confirmation-step-template">
+    <div v-if="service && appointment">
+        <div class="edd-booking-wizard__info">
+            <p v-html="_('You are booking: <strong>%s</strong> - %s appointment', [appointment.service, appointment.duration])"></p>
+            <p v-html="_('Starting at <strong>%s</strong>', [appointment.start])"></p>
+            <p style="margin-bottom: 0" v-html="_('The price is of <strong>%s</strong>', [appointment.price])"></p>
+        </div>
+
+        <div class="inline-form-control">
+            <label>{{ _('Additional notes') }}</label>
+            <textarea
+                    rows="4"
+                    v-model="notes"
+                    class="eddb-control"
+                    :placeholder="_('Have you got any special requests for the service provider? If yes, please note them down here')"
+            ></textarea>
+        </div>
+    </div>
+</script>
