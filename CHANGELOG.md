@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+
+## [0.1-alpha7] - 2018-07-12
 ### Changed
 - Using a completely new implementation of the booking wizard, built on top of the UI framework.
 - Module class now delegates assets and state logic to handlers.
