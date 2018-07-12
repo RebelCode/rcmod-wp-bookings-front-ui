@@ -6,12 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
 ### Changed
-- Using new implementation of booking client (on top of the UI Framework).
-- Module class now delegates assets and state logic.
+- Using a completely new implementation of the booking wizard, built on top of the UI framework.
+- Module class now delegates assets and state logic to handlers.
 
 ### Added
 - Templates for wizard and components.
 - Dedicated handlers for assets and logic.
+- A block that provides padding between the wizard template and the application, allowing assets and scripts to be enqueued whenever it is used. Includes block factory.
 
 ## [0.1-alpha6] - 2018-06-12
 ### Changed
