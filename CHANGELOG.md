@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Added
+- Phing build config for building assets.
+
+## [0.1-alpha7] - 2018-07-12
 ### Changed
 - Using new implementation of booking client (on top of the UI Framework).
 - Module class now delegates assets and state logic.
