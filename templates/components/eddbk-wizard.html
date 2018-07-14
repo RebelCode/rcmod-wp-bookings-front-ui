@@ -5,7 +5,7 @@
                  :nextButtonText="_('Next')"
                  :backButtonText="_('Back')"
                  :finishButtonText="_('Finish')"
-                 color="#17a7dd"
+                 v-bind="$attrs"
     >
         <tab-content :before-change="isServiceStepReady" v-if="!config.service">
             <service-step v-model="service"></service-step>
