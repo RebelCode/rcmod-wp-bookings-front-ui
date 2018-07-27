@@ -29,13 +29,14 @@ return [
             ],
         ],
         /*
-         * Data map for booking resource. Key is real key name which be sent
-         * to the API. Value is field name for using on the client.
+         * Data map for booking resource. Key field name for using on the client.
+         * Value is is real key name which be sent to the API.
          *
          * @since [*next-version*]
          */
         'booking_data_map' => [
-            'notes' => 'notes',
+            'notes'    => 'notes',
+            'timezone' => 'clientTz',
         ],
 
         'assets_urls_map_path' => RC_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',

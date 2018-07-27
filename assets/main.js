@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, {
       cjs: 'https://rawgit.com/guybedford/cjs/master/cjs',
       'amd-loader': 'https://rawgit.com/guybedford/amd-loader/master/amd-loader',
-      stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.4/dist/std-lib.umd',
+      stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.5/dist/std-lib.umd',
       bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
       vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue',
       vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
-      bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.4/dist/lib.min',
+      bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.5/dist/lib.min',
       formWizard: 'https://unpkg.com/vue-form-wizard/dist/vue-form-wizard',
       axios: 'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min',
       humanizeDuration: 'https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.14.0/humanize-duration.min',
@@ -110,18 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     serviceList['document'] = function () {
       return document
-    }
-    /**
-     * Current browser's timezone.
-     *
-     * @since [*next-version*]
-     *
-     * @param {object} container The application container.
-     *
-     * @return {string} Current browser's timezone.
-     */
-    serviceList['browserTimezone'] = function (container) {
-      return container.moment.tz.guess()
     }
     serviceList['handleBookSuccess'] = function () {
       /**
