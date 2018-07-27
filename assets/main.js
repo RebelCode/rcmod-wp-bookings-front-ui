@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, {
       cjs: 'https://rawgit.com/guybedford/cjs/master/cjs',
       'amd-loader': 'https://rawgit.com/guybedford/amd-loader/master/amd-loader',
-      stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.4/dist/std-lib.umd',
+      stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.5/dist/std-lib.umd',
       bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
       vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue',
       vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
