@@ -35,8 +35,8 @@ return [
          * @since [*next-version*]
          */
         'booking_data_map' => [
-            'notes' => 'notes',
-            'timezone' => 'clientTz'
+            'notes'    => 'notes',
+            'timezone' => 'clientTz',
         ],
 
         'assets_urls_map_path' => RC_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',

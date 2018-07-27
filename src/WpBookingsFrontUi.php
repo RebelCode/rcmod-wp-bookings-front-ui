@@ -184,8 +184,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     'wizardServiceStepTemplate'      => $c->get('eddbk_front_service_step_template')->render(),
                     'wizardSessionStepTemplate'      => $c->get('eddbk_front_session_step_template')->render(),
                     'wizardConfirmationStepTemplate' => $c->get('eddbk_front_confirmation_step_template')->render(),
-                    'generalComponentsTemplates' => $c->get('eddbk_front_general_components_templates')->render([
-                        'timezoneOptions' => $this->_renderTimezoneOptions()
+                    'generalComponentsTemplates'     => $c->get('eddbk_front_general_components_templates')->render([
+                        'timezoneOptions' => $this->_renderTimezoneOptions(),
                     ]),
                 ]);
             },
@@ -287,6 +287,6 @@ class WpBookingsFrontUi extends AbstractBaseModule
      */
     protected function _renderTimezoneOptions()
     {
-        return wp_timezone_choice( 'UTC+0', get_user_locale() );
+        return wp_timezone_choice('UTC+0', get_user_locale());
     }
 }
