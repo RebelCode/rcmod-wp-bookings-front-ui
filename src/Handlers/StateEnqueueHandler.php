@@ -85,6 +85,15 @@ class StateEnqueueHandler implements InvocableInterface
      */
     protected $datetimeFormats;
 
+    /*
+     * The WP Rest nonce.
+     *
+     * @since [*next-version*]
+     *
+     * @var string|Stringable
+     */
+    protected $wpRestNonce;
+
     /**
      * StateEnqueueHandler constructor.
      *
@@ -96,6 +105,7 @@ class StateEnqueueHandler implements InvocableInterface
      * @param MapInterface|array|stdClass $bookingDataMap           Map of additional booking fields to their aliases for client.
      * @param string|Stringable           $initialBookingTransition Name of initial transition for booking.
      * @param MapInterface|array|stdClass $datetimeFormats          List of datetime formats for application.
+     * @param string|Stringable           $wpRestNonce              The WP Rest nonce.
      */
     public function __construct(
         $stateVarName,
@@ -103,7 +113,8 @@ class StateEnqueueHandler implements InvocableInterface
         $apiEndpointUrls,
         $bookingDataMap,
         $initialBookingTransition,
-        $datetimeFormats
+        $datetimeFormats,
+        $wpRestNonce
     ) {
         $this->stateVarName             = $stateVarName;
         $this->applicationSelector      = $this->_normalizeString($applicationSelector);
@@ -111,6 +122,8 @@ class StateEnqueueHandler implements InvocableInterface
         $this->bookingDataMap           = $bookingDataMap;
         $this->initialBookingTransition = $this->_normalizeString($initialBookingTransition);
         $this->datetimeFormats          = $datetimeFormats;
+
+        $this->wpRestNonce = $wpRestNonce;
     }
 
     /**
@@ -140,6 +153,7 @@ class StateEnqueueHandler implements InvocableInterface
     protected function _enqueueState()
     {
         wp_localize_script('eddbk-wizard-app', $this->stateVarName, [
+            'wpRestNonce'              => $this->_normalizeString($this->wpRestNonce),
             'applicationSelector'      => $this->applicationSelector,
             'apiEndpointUrls'          => $this->_getApiEndpointUrls($this->apiEndpointUrls),
             'bookingDataMap'           => $this->_normalizeArray($this->bookingDataMap),
