@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
 
+## [0.1-alpha11] - 2018-08-14
+### Added
+- Now using the nonce service from `wp_bookings_ui` module to send nonce.
+
 ## [0.1-alpha10] - 2018-08-13
 ### Added
 - General components template
