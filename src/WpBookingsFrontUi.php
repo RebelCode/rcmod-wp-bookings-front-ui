@@ -224,7 +224,8 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     $c->get('bookings_front_ui/api_endpoint_urls'),
                     $c->get('bookings_front_ui/booking_data_map'),
                     $c->get('bookings_front_ui/initial_booking_transition'),
-                    $c->get('bookings_front_ui/formats/datetime')
+                    $c->get('bookings_front_ui/formats/datetime'),
+                    $c->get('eddbk_wp_rest_nonce')
                 );
             },
         ]);
