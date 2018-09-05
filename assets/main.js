@@ -42,23 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, {})
   }
 
-  /**
-   * @var {object} EDDBK_WIZARD_REQUIRE_FILES
-   *
-   * @property {string} bookingWizard Link to JS file of compiled booking wizard application.
-   */
-  require.config({
-    baseUrl: EDDBK_WIZARD_REQUIRE_BASE_URL,
-    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, map(EDDBK_WIZARD_REQUIRE_LIBS, function (key, value) {
-      return [
-        // original CDN location
-        value,
-        // local fallback location
-        key
-      ]
-    }))
-  })
-
   var dependenciesList = [
     'bookingWizard',
     'formWizard',
@@ -77,6 +60,19 @@ document.addEventListener('DOMContentLoaded', function () {
     'cjs!momentRange',
     'stdLib'
   ]
+
+  /**
+   * @var {object} EDDBK_WIZARD_REQUIRE_FILES
+   *
+   * @property {string} bookingWizard Link to JS file of compiled booking wizard application.
+   */
+  require.config({
+    baseUrl: EDDBK_WIZARD_REQUIRE_BASE_URL,
+    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, map(EDDBK_WIZARD_REQUIRE_LIBS, function (key, value) {
+      // load local versions of `cjs!` loader dependencies to prevent timeouts.
+      return dependenciesList.indexOf('cjs!' + key) !== -1 ? [key, value] : [value,  key]
+    }))
+  })
 
   require(dependenciesList, function () {
     var dependencies = {}

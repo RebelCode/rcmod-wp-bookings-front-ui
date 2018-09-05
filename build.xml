@@ -21,11 +21,6 @@
         <mkdir dir="${module_build_path}" />
     </target>
 
-    <target name="fetch_require_deps">
-        <echo msg="Fetching RequireJS dependencies" />
-        <exec command="node lib/fetch-require-deps.js" dir="${module_base_dir}" checkreturn="true" passthru="${verbose}" />
-    </target>
-
     <target name="install_js">
         <echo msg="Installing JS dependencies" />
         <exec command="npm install --no-bin-links" dir="${module_base_dir}" checkreturn="true" passthru="${verbose}" />
@@ -35,7 +30,7 @@
         <phingcall target="install_js" />
     </target>
 
-    <target name="build_css" depends="clean,prepare,maybe_install_js,fetch_require_deps">
+    <target name="build_css" depends="clean,prepare,maybe_install_js">
         <echo msg="Building CSS in ${module_base_dir}" />
         <exec command="npm run build" dir="${module_base_dir}" passthru="${verbose}" />
     </target>
