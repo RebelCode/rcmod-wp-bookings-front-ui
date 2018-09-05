@@ -8,8 +8,7 @@ var EDDBK_WIZARD_REQUIRE_LIBS = {
   bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
   vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue.min',
   vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
-  bookingWizardComponents: 'http://scotchbox.local/bookings-js/dist/js/bwc.min',
-  // bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.6/dist/lib.min',
+  bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.7/dist/lib.min',
   formWizard: 'https://unpkg.com/vue-form-wizard/dist/vue-form-wizard',
   axios: 'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min',
   humanizeDuration: 'https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.14.0/humanize-duration.min',
@@ -36,13 +35,28 @@ if (typeof module !== "undefined" && module.exports) {
  * dependencies (Vue at least).
  */
 document.addEventListener('DOMContentLoaded', function () {
+  var map = function (object, mapFn) {
+    return Object.keys(object).reduce(function(result, key) {
+      result[key] = mapFn(key, object[key])
+      return result
+    }, {})
+  }
+
   /**
    * @var {object} EDDBK_WIZARD_REQUIRE_FILES
    *
    * @property {string} bookingWizard Link to JS file of compiled booking wizard application.
    */
   require.config({
-    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, EDDBK_WIZARD_REQUIRE_LIBS)
+    baseUrl: EDDBK_WIZARD_REQUIRE_BASE_URL,
+    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, map(EDDBK_WIZARD_REQUIRE_LIBS, function (key, value) {
+      return [
+        // original CDN location
+        value,
+        // local fallback location
+        key
+      ]
+    }))
   })
 
   var dependenciesList = [

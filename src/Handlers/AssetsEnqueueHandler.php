@@ -95,6 +95,8 @@ class AssetsEnqueueHandler implements InvocableInterface
             ),
         ]);
 
+        wp_localize_script('eddbk-wizard-app-require', 'EDDBK_WIZARD_REQUIRE_BASE_URL', $assets->get('scripts_base_path'));
+
         /*
          * All application components located here
          */
