@@ -1,4 +1,35 @@
 /*
+ * Libraries that should be required.
+ */
+var EDDBK_WIZARD_REQUIRE_LIBS = {
+  cjs: 'https://rawgit.com/guybedford/cjs/master/cjs',
+  'amd-loader': 'https://rawgit.com/guybedford/amd-loader/master/amd-loader',
+  stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.5/dist/std-lib.umd',
+  bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
+  vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue.min',
+  vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
+  bookingWizardComponents: 'http://scotchbox.local/bookings-js/dist/js/bwc.min',
+  // bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.6/dist/lib.min',
+  formWizard: 'https://unpkg.com/vue-form-wizard/dist/vue-form-wizard',
+  axios: 'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min',
+  humanizeDuration: 'https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.14.0/humanize-duration.min',
+  uiFramework: 'https://unpkg.com/@rebelcode/ui-framework@0.1.1/dist/static/js/uiFramework',
+  datepicker: 'https://cdn.jsdelivr.net/npm/vuejs-datepicker@0.9.26/dist/build.min',
+  lodash: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min',
+  textFormatter: 'https://unpkg.com/sprintf-js@1.1.1/dist/sprintf.min',
+  moment: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min',
+  momentTimezone: 'https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.17/moment-timezone-with-data-2012-2022.min',
+  momentRange: 'https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.1/moment-range',
+}
+
+/*
+ * Export lib list if running from CLI.
+ */
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = EDDBK_WIZARD_REQUIRE_LIBS
+}
+
+/*
  * This is entry point for application.
  *
  * Require JS will be used here to load all needed
@@ -11,25 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
    * @property {string} bookingWizard Link to JS file of compiled booking wizard application.
    */
   require.config({
-    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, {
-      cjs: 'https://rawgit.com/guybedford/cjs/master/cjs',
-      'amd-loader': 'https://rawgit.com/guybedford/amd-loader/master/amd-loader',
-      stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.5/dist/std-lib.umd',
-      bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
-      vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue',
-      vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
-      bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.6/dist/lib.min',
-      formWizard: 'https://unpkg.com/vue-form-wizard/dist/vue-form-wizard',
-      axios: 'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min',
-      humanizeDuration: 'https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.14.0/humanize-duration.min',
-      uiFramework: 'https://unpkg.com/@rebelcode/ui-framework@0.1.1/dist/static/js/uiFramework',
-      datepicker: 'https://cdn.jsdelivr.net/npm/vuejs-datepicker@0.9.26/dist/build.min',
-      lodash: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min',
-      textFormatter: 'https://unpkg.com/sprintf-js@1.1.1/dist/sprintf.min',
-      moment: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min',
-      momentTimezone: 'https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.17/moment-timezone-with-data-2012-2022.min',
-      momentRange: 'https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.1/moment-range',
-    })
+    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, EDDBK_WIZARD_REQUIRE_LIBS)
   })
 
   var dependenciesList = [
