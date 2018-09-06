@@ -43,8 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
    *
    * @property {string} bookingWizard Link to JS file of compiled booking wizard application.
    */
-  console.info(EDDBK_WIZARD_APP_STATE)
-
   window.require.config({
     baseUrl: EDDBK_WIZARD_APP_STATE.scriptsBase,
     paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, map(EDDBK_WIZARD_REQUIRE_LIBS, function (key, cdnUrl) {
