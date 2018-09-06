@@ -83,6 +83,13 @@ class AssetsEnqueueHandler implements InvocableInterface
     protected function _enqueueAssets($assetsUrlMap, $assets)
     {
         /*
+         * All application components located here
+         */
+        wp_enqueue_script('eddbk-wizard-app', $assetsUrlMap->get(
+            $assets->get('wizard/main.js')
+        ), [], false, true);
+
+        /*
          * Enqueue require-related script and script list from the container
          */
         wp_enqueue_script('eddbk-wizard-app-require', $assetsUrlMap->get(
@@ -94,15 +101,6 @@ class AssetsEnqueueHandler implements InvocableInterface
                 $assets->get('wizard/app.min.js')
             ),
         ]);
-
-        wp_localize_script('eddbk-wizard-app-require', 'EDDBK_WIZARD_REQUIRE_BASE_URL', $assets->get('scripts_base_path'));
-
-        /*
-         * All application components located here
-         */
-        wp_enqueue_script('eddbk-wizard-app', $assetsUrlMap->get(
-            $assets->get('wizard/main.js')
-        ), [], false, true);
 
         /*
          * Enqueue all styles from assets URL map

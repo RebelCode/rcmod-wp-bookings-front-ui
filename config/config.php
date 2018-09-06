@@ -41,7 +41,7 @@ return [
 
         'assets_urls_map_path' => RC_BOOKINGS_FRONT_UI_MODULE_CONFIG_DIR . '/assets_urls_map.php',
         'assets'               => [
-            'scripts_base_path' => plugins_url(RC_BOOKINGS_FRONT_UI_MODULE_RELATIVE_DIR . '/assets/scripts/', EDDBK_FILE),
+            'scripts_base_path' => plugins_url(RC_BOOKINGS_FRONT_UI_MODULE_RELATIVE_DIR . '/dist/scripts/', EDDBK_FILE),
             'require.js'        => 'require',
             'wizard'            => [
                 'app.min.js' => 'wizard_ui/dist/app.min.js',

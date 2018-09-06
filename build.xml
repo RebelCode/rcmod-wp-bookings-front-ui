@@ -30,11 +30,11 @@
         <phingcall target="install_js" />
     </target>
 
-    <target name="build_css" depends="clean,prepare,maybe_install_js">
-        <echo msg="Building CSS in ${module_base_dir}" />
+    <target name="build_assets" depends="clean,prepare,maybe_install_js">
+        <echo msg="Building assets in ${module_base_dir}" />
         <exec command="npm run build" dir="${module_base_dir}" passthru="${verbose}" />
     </target>
 
-    <target name="build" depends="build_css">
+    <target name="build" depends="build_assets">
     </target>
 </project>

@@ -1,32 +1,4 @@
-/*
- * Libraries that should be required.
- */
-var EDDBK_WIZARD_REQUIRE_LIBS = {
-  cjs: 'https://rawgit.com/guybedford/cjs/master/cjs',
-  'amd-loader': 'https://rawgit.com/guybedford/amd-loader/master/amd-loader',
-  stdLib: 'https://unpkg.com/@rebelcode/std-lib@0.1.5/dist/std-lib.umd',
-  bottle: 'https://cdnjs.cloudflare.com/ajax/libs/bottlejs/1.6.1/bottle.min',
-  vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.4/vue.min',
-  vuex: 'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min',
-  bookingWizardComponents: 'https://unpkg.com/@rebelcode/booking-wizard-components@0.1.7/dist/lib.min',
-  formWizard: 'https://unpkg.com/vue-form-wizard/dist/vue-form-wizard',
-  axios: 'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min',
-  humanizeDuration: 'https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.14.0/humanize-duration.min',
-  uiFramework: 'https://unpkg.com/@rebelcode/ui-framework@0.1.1/dist/static/js/uiFramework',
-  datepicker: 'https://cdn.jsdelivr.net/npm/vuejs-datepicker@0.9.26/dist/build.min',
-  lodash: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min',
-  textFormatter: 'https://unpkg.com/sprintf-js@1.1.1/dist/sprintf.min',
-  moment: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min',
-  momentTimezone: 'https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.17/moment-timezone-with-data-2012-2022.min',
-  momentRange: 'https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.1/moment-range',
-}
-
-/*
- * Export lib list if running from CLI.
- */
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = EDDBK_WIZARD_REQUIRE_LIBS
-}
+require('./styles/app.scss')
 
 /*
  * This is entry point for application.
@@ -35,12 +7,17 @@ if (typeof module !== "undefined" && module.exports) {
  * dependencies (Vue at least).
  */
 document.addEventListener('DOMContentLoaded', function () {
-  var map = function (object, mapFn) {
+  function map (object, mapFn) {
     return Object.keys(object).reduce(function(result, key) {
       result[key] = mapFn(key, object[key])
       return result
     }, {})
   }
+
+  /*
+   * Libraries that should be required. Keep in sync with
+   */
+  var EDDBK_WIZARD_REQUIRE_LIBS = BOWER_DEPS
 
   var dependenciesList = [
     'bookingWizard',
@@ -66,15 +43,18 @@ document.addEventListener('DOMContentLoaded', function () {
    *
    * @property {string} bookingWizard Link to JS file of compiled booking wizard application.
    */
-  require.config({
-    baseUrl: EDDBK_WIZARD_REQUIRE_BASE_URL,
-    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, map(EDDBK_WIZARD_REQUIRE_LIBS, function (key, value) {
+  console.info(EDDBK_WIZARD_APP_STATE)
+
+  window.require.config({
+    baseUrl: EDDBK_WIZARD_APP_STATE.scriptsBase,
+    paths: Object.assign(EDDBK_WIZARD_REQUIRE_FILES, map(EDDBK_WIZARD_REQUIRE_LIBS, function (key, cdnUrl) {
       // load local versions of `cjs!` loader dependencies to prevent timeouts.
-      return dependenciesList.indexOf('cjs!' + key) !== -1 ? [key, value] : [value,  key]
+      var localUrl = key + '/index'
+      return dependenciesList.indexOf('cjs!' + key) !== -1 ? [localUrl , cdnUrl] : [cdnUrl,  localUrl]
     }))
   })
 
-  require(dependenciesList, function () {
+  window.require(dependenciesList, function () {
     var dependencies = {}
 
     for (var i = 0; i < dependenciesList.length; i++) {
