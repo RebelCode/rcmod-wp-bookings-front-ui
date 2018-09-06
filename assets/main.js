@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }, {})
   }
 
-  /*
-   * Libraries that should be required. Keep in sync with
+  /**
+   * Libraries that should be required. It automatically synced with `bower.json` using
+   * Webpack's DefinePlugin.
+   *
+   * @see ./webpack.config.js
    */
   var EDDBK_WIZARD_REQUIRE_LIBS = BOWER_DEPS
 
