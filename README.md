@@ -18,16 +18,23 @@ We are using RequireJS to manage all dependencies. They are loaded from CDN in r
 
 ### Build
 
-For building assets of this package you need to install `node`, `npm` and `bower`.
-> Bower is used to download dependencies from CDN and hold them locally to use them as fallback.
+For building assets of this package you need to have installed `node` and `npm`.
 
-Before build
+Before build you need to install all dependencies, including `bower`:
 
-This module provide WP wrapper for bookings wizard. So to make it works you need to pull in `bookings-client` as front-end dependency:
 ```bash
 $ npm install
 ```
-It will install all front-end dependencies, with **pre-built** sources.
+
+> Bower is used to download dependencies from CDN and hold them locally to use them as fallback.
+
+After dependencies installation you are ready to build assets:
+
+```bash
+$ npm run build
+```
+
+Build command will build module's JS and CSS and store result in `dist` folder. After building `bower install` will be automatically called. It will copy all CDN scripts to `dist/scripts` folder. This copied scripts provide fallback ability for RequireJS.
 
 ## Usage
 [WIP]
