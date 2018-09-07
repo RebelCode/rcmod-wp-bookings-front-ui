@@ -212,7 +212,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                 return new AssetsEnqueueHandler($c->get('eddbk_wizard_assets_urls_map'), $c->get('eddbk_wizard_assets'));
             },
 
-            /**
+            /*
              * EDDBK Rest Api nonce for client authentication.
              *
              * @since [*next-version*]
@@ -221,7 +221,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
              */
             'eddbk_rest_api_nonce' => function (ContainerInterface $c) {
                 return $c->get('eddbk_wp_nonce_factory')->make([
-                    'name' => 'eddbk_rest_api'
+                    'name' => 'eddbk_rest_api',
                 ]);
             },
 
