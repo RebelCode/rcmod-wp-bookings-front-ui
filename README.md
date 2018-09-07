@@ -10,30 +10,31 @@ A RebelCode module that provides UI for booking appointments
 
 [Dhii]: https://github.com/Dhii/dhii
 
-## Make It Works
+## Assets building
 
-This module provide WP wrapper for bookings wizard. So to make it works you need to pull in `bookings-client` as front-end dependency:
+### Dependencies
+
+We are using RequireJS to manage all dependencies. They are loaded from CDN in runtime asyncroniously. In case when CDN is not available we are using Require JS fallback mechanism to handle this case. You can read more about this here: https://requirejs.org/docs/api.html#pathsfallbacks
+
+### Build
+
+For building assets of this package you need to have installed `node` and `npm`.
+
+Before build you need to install all dependencies, including `bower`:
+
 ```bash
 $ npm install
 ```
-It will install all front-end dependencies, with **pre-built** sources.
+
+> Bower is used to download dependencies from CDN and hold them locally to use them as fallback.
+
+After dependencies installation you are ready to build assets:
+
+```bash
+$ npm run build
+```
+
+Build command will build module's JS and CSS and store result in `dist` folder. After building `bower install` will be automatically called. It will copy all CDN scripts to `dist/scripts` folder. This copied scripts provide fallback ability for RequireJS.
 
 ## Usage
-
-Module exposes two methods in order to make everything works:
-```php
-render($params = [])
-
-// usage
-echo $c->get('wp_bookings_front_ui')->render($someAttrs);
-```
-Where `$params` is array that will be passed to `BookingWizard` application.
-
-And
-```php
-enqueueAssets()
-
-// usage
-echo $c->get('wp_bookings_front_ui')->enqueueAssets();
-```
-This method enqueuing assets using WP enqueue system and must be called on some WP enqueue hook.
+[WIP]
