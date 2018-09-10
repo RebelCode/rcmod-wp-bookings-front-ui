@@ -213,19 +213,6 @@ class WpBookingsFrontUi extends AbstractBaseModule
             },
 
             /*
-             * EDDBK Rest Api nonce for client authentication.
-             *
-             * @since [*next-version*]
-             *
-             * @return Stringable
-             */
-            'eddbk_rest_api_nonce' => function (ContainerInterface $c) {
-                return $c->get('eddbk_wp_nonce_factory')->make([
-                    'name' => 'eddbk_rest_api',
-                ]);
-            },
-
-            /*
              * Handles state output for client application.
              *
              * @since [*next-version*]
@@ -238,7 +225,7 @@ class WpBookingsFrontUi extends AbstractBaseModule
                     $c->get('bookings_front_ui/booking_data_map'),
                     $c->get('bookings_front_ui/initial_booking_transition'),
                     $c->get('bookings_front_ui/formats/datetime'),
-                    $c->get('eddbk_rest_api_nonce')
+                    $c->get('eddbk_rest_api_wp_client_app_nonce')
                 );
             },
         ]);
