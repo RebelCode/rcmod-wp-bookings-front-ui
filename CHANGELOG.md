@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+
+## [0.1-alpha14] - 2018-09-11
 ### Added
-- `eddbk_rest_api` module dependency.
+- `eddbk_rest_api` module dev dependency.
 
 ### Changed
 - Using new trusted client mechanism based on WP Nonce to provide ability to make API calls without WP login. 
