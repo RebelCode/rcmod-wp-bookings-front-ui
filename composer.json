@@ -21,8 +21,8 @@
         "ptrofimov/xpmock": "^1.1",
         "dhii/php-cs-fixer-config": "^0.1",
         "codeclimate/php-test-reporter": "<=0.3.2",
-        "rebelcode/rcmod-wp-bookings-ui": "0.1-alpha13",
-        "rebelcode/rcmod-eddbk-rest-api": "0.1-alpha8"
+        "rebelcode/rcmod-wp-bookings-ui": "^0.1-alpha13",
+        "rebelcode/rcmod-eddbk-rest-api": "^0.1-alpha8"
     },
     "autoload": {
         "psr-4": {
