@@ -8,7 +8,7 @@
     "build": "./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p"
   },
   "devDependencies": {
-    "@rebelcode/booking-wizard": "^0.1.4",
+    "@rebelcode/booking-wizard": "^0.1.5",
     "bower": "^1.8.4",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",

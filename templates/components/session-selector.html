@@ -59,6 +59,7 @@
                     :inline="true"
                     @changedMonth="onMonthChange"
                     :open-date="openedOnDate"
+                    :monday-first="$store.getters['settings/mondayFirst']"
                     :disabled="{ customPredictor: isDateDisabled, to: today }"
                     :highlighted="{ dates: sessionDays, includeDisabled: true }"
                     class="sessions-datepicker"
