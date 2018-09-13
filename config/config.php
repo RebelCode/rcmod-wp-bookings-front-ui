@@ -45,7 +45,7 @@ return [
             'require.js'        => 'require',
             'wizard'            => [
                 'app.min.js' => 'wizard_ui/dist/app.min.js',
-                'main.js'    => 'wizard_ui/assets/main.js',
+                'main.js'    => 'wizard_ui/dist/main.js',
             ],
             'styles' => [
                 'app' => 'wizard_ui/dist/wp-bookings-front-ui.css',

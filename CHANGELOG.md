@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [[*next-version*]] - YYYY-MM-DD
 ### Changed
 - Using version `0.1.8` of `booking-wizard-components`
+- Using version `0.1.5` of `booking-wizard`
+
+### Fixed
+- Fixed wizard ignoring "Week Starts On" setting.
 
 ## [0.1-alpha14] - 2018-09-11
 ### Added
