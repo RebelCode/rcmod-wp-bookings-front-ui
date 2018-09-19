@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Booking plugin application client",
   "scripts": {
-    "build": "./node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p"
+    "build": "node ./build/build.js"
   },
   "dependencies": {
     "@rebelcode/booking-wizard": "0.2.0"
