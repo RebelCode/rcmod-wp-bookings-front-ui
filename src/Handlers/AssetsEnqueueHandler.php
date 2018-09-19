@@ -86,21 +86,8 @@ class AssetsEnqueueHandler implements InvocableInterface
          * All application components located here
          */
         wp_enqueue_script('eddbk-wizard-app', $assetsUrlMap->get(
-            $assets->get('wizard/main.js')
+            $assets->get('wizard/app.min.js')
         ), [], false, true);
-
-        /*
-         * Enqueue require-related script and script list from the container
-         */
-        wp_enqueue_script('eddbk-wizard-app-require', $assetsUrlMap->get(
-            $assets->get('require.js')
-        ), [], false, true);
-
-        wp_localize_script('eddbk-wizard-app-require', 'EDDBK_WIZARD_REQUIRE_FILES', [
-            'bookingWizard' => $assetsUrlMap->get(
-                $assets->get('wizard/app.min.js')
-            ),
-        ]);
 
         /*
          * Enqueue all styles from assets URL map
@@ -109,6 +96,6 @@ class AssetsEnqueueHandler implements InvocableInterface
         foreach ($assets->get('styles') as $styleDependency) {
             $stylesMap[] = $assetsUrlMap->get($styleDependency);
         }
-        wp_localize_script('eddbk-wizard-app-require', 'EDDBK_WIZARD_REQUIRE_STYLES', $stylesMap);
+        wp_localize_script('eddbk-wizard-app', 'EDDBK_WIZARD_REQUIRE_STYLES', $stylesMap);
     }
 }

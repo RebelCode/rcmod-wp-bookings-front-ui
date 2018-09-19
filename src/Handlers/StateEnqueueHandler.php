@@ -41,15 +41,6 @@ class StateEnqueueHandler implements InvocableInterface
     protected $stateVarName;
 
     /**
-     * Base path of all local scripts.
-     *
-     * @since [*next-version*]
-     *
-     * @var Stringable|string
-     */
-    protected $scriptsBasePath;
-
-    /**
      * Application container's CSS selector.
      *
      * @since [*next-version*]
@@ -109,7 +100,6 @@ class StateEnqueueHandler implements InvocableInterface
      * @since [*next-version*]
      *
      * @param string|Stringable           $stateVarName             State variable name.
-     * @param string|Stringable           $scriptsBasePath          Base path of all scripts.
      * @param string|Stringable           $applicationSelector      Application container's CSS selector.
      * @param MapInterface|array|stdClass $apiEndpointUrls          Map of endpoint name to its API url.
      * @param MapInterface|array|stdClass $bookingDataMap           Map of additional booking fields to their aliases for client.
@@ -119,7 +109,6 @@ class StateEnqueueHandler implements InvocableInterface
      */
     public function __construct(
         $stateVarName,
-        $scriptsBasePath,
         $applicationSelector,
         $apiEndpointUrls,
         $bookingDataMap,
@@ -128,7 +117,6 @@ class StateEnqueueHandler implements InvocableInterface
         $wpRestNonce
     ) {
         $this->stateVarName             = $stateVarName;
-        $this->scriptsBasePath          = $scriptsBasePath;
         $this->applicationSelector      = $this->_normalizeString($applicationSelector);
         $this->apiEndpointUrls          = $apiEndpointUrls;
         $this->bookingDataMap           = $bookingDataMap;
@@ -165,7 +153,6 @@ class StateEnqueueHandler implements InvocableInterface
     protected function _enqueueState()
     {
         wp_localize_script('eddbk-wizard-app', $this->stateVarName, [
-            'scriptsBase'              => $this->_normalizeString($this->scriptsBasePath),
             'wpRestNonce'              => $this->_normalizeString($this->wpRestNonce),
             'applicationSelector'      => $this->applicationSelector,
             'apiEndpointUrls'          => $this->_getApiEndpointUrls($this->apiEndpointUrls),
