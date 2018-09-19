@@ -5,6 +5,8 @@
                  :nextButtonText="_('Next')"
                  :backButtonText="_('Back')"
                  :finishButtonText="_('Finish')"
+                 @on-change="onStepChange"
+                 ref="wizard"
                  v-bind="$attrs"
     >
         <tab-content :before-change="isServiceStepReady" v-if="!config.service">
@@ -43,7 +45,10 @@
                                :disabled="isCreatingBooking ? 'disabled' : false"
                 >
                     <span v-if="!isCreatingBooking">{{ isLastStep ? _('Book Now') : _('Next') }}</span>
-                    <span class="eddbk-loading-inline eddbk-loading-inline--clean" v-else></span>
+                    <template v-if="isCreatingBooking">
+                        <span>&nbsp;</span>
+                        <span class="eddbk-loading-inline eddbk-loading-inline--clean"></span>
+                    </template>
                 </wizard-button>
             </div>
         </template>
