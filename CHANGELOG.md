@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
 ### Changed
-- Using version `0.2.1` of `booking-wizard`
+- Using version `0.2.2` of `booking-wizard`
 
 ## [0.1-alpha15] - 2018-09-13
 ### Changed
