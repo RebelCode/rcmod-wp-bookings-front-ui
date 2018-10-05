@@ -4,8 +4,6 @@ namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
 use Dhii\Collection\MapInterface;
 use Dhii\Event\EventFactoryInterface;
-use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
-use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Invocation\InvocableInterface;
 use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Dhii\Util\Normalization\NormalizeStringCapableTrait;
