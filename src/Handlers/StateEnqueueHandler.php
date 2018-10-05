@@ -3,6 +3,7 @@
 namespace RebelCode\Bookings\WordPress\Module\Handlers;
 
 use Dhii\Collection\MapInterface;
+use Dhii\Event\EventFactoryInterface;
 use Dhii\Exception\CreateInvalidArgumentExceptionCapableTrait;
 use Dhii\I18n\StringTranslatingTrait;
 use Dhii\Invocation\InvocableInterface;
@@ -10,6 +11,8 @@ use Dhii\Util\Normalization\NormalizeArrayCapableTrait;
 use Dhii\Util\Normalization\NormalizeStringCapableTrait;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Psr\EventManager\EventInterface;
+use Psr\EventManager\EventManagerInterface;
+use RebelCode\Modular\Events\EventsConsumerTrait;
 use stdClass;
 
 /**
@@ -20,16 +23,13 @@ use stdClass;
 class StateEnqueueHandler implements InvocableInterface
 {
     /* @since [*next-version*] */
+    use EventsConsumerTrait;
+
+    /* @since [*next-version*] */
     use NormalizeArrayCapableTrait;
 
     /* @since [*next-version*] */
     use NormalizeStringCapableTrait;
-
-    /* @since [*next-version*] */
-    use StringTranslatingTrait;
-
-    /* @since [*next-version*] */
-    use CreateInvalidArgumentExceptionCapableTrait;
 
     /**
      * State variable name.
@@ -106,6 +106,8 @@ class StateEnqueueHandler implements InvocableInterface
      * @param string|Stringable           $initialBookingTransition Name of initial transition for booking.
      * @param MapInterface|array|stdClass $datetimeFormats          List of datetime formats for application.
      * @param string|Stringable           $wpRestNonce              The WP Rest nonce.
+     * @param EventManagerInterface       $eventManager             The event manager.
+     * @param EventFactoryInterface       $eventFactory             The event factory.
      */
     public function __construct(
         $stateVarName,
@@ -114,7 +116,9 @@ class StateEnqueueHandler implements InvocableInterface
         $bookingDataMap,
         $initialBookingTransition,
         $datetimeFormats,
-        $wpRestNonce
+        $wpRestNonce,
+        $eventManager,
+        $eventFactory
     ) {
         $this->stateVarName             = $stateVarName;
         $this->applicationSelector      = $this->_normalizeString($applicationSelector);
@@ -124,6 +128,9 @@ class StateEnqueueHandler implements InvocableInterface
         $this->datetimeFormats          = $datetimeFormats;
 
         $this->wpRestNonce = $wpRestNonce;
+
+        $this->_setEventManager($eventManager);
+        $this->_setEventFactory($eventFactory);
     }
 
     /**
@@ -159,6 +166,7 @@ class StateEnqueueHandler implements InvocableInterface
             'bookingDataMap'           => $this->_normalizeArray($this->bookingDataMap),
             'initialBookingTransition' => $this->initialBookingTransition,
             'datetimeFormats'          => $this->_normalizeArray($this->datetimeFormats),
+            'applicationLabels'        => $this->_getApplicationLabels(),
         ]);
     }
 
@@ -180,5 +188,17 @@ class StateEnqueueHandler implements InvocableInterface
         }
 
         return $preparedApiEndpointUrls;
+    }
+
+    /**
+     * Get list of text labels for wizard application.
+     *
+     * @since [*next-version*]
+     *
+     * @return array Labels for wizard application.
+     */
+    protected function _getApplicationLabels()
+    {
+        return $this->_trigger('eddbk_front_application_labels')->getParam('labels');
     }
 }

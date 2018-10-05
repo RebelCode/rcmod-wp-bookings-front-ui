@@ -2,11 +2,11 @@
     <div>
         <div class="inline-form-control">
             <label>
-                {{ _('Select a service') }}
+                {{ getLabel('fields.service.title') }}
                 <span class="eddbk-loading-inline" v-if="isLoading" style="margin-left: 3px"></span>
             </label>
             <select v-model="valueProxy" class="eddb-control" :disabled="isLoading ? 'disabled' : false">
-                <option :value="null" disabled selected>{{ _('Select option') }}</option>
+                <option :value="null" disabled selected>{{ getLabel('fields.service.placeholder') }}</option>
                 <option :value="item" v-for="item in services">{{ item.name }}</option>
             </select>
         </div>

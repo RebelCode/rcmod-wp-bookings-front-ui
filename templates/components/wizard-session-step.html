@@ -2,14 +2,14 @@
     <div v-if="service">
         <div class="edd-booking-wizard__info">
             <p>
-                {{ _('You are booking:') }}
+                {{ getLabel('preview.booking') }}
                 <strong>{{ service.name }}</strong>
                 <span class="eddbk-form-control__info">{{ service.timezone }}</span>
             </p>
             <template v-if="service.displayOptions.allowCustomerChangeTimezone">
                 <hr>
                 <div class="inline-form-control inline-form-control--light">
-                    <label>{{ _('Change timezone') }}</label>
+                    <label>{{ getLabel('fields.timezone.title') }}</label>
                     <div>
                         <timezone-select v-model="timezone" class="eddb-control"></timezone-select>
                     </div>

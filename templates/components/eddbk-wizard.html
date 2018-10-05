@@ -1,9 +1,9 @@
 <script type="text/x-template" id="eddbk-wizard-template">
     <div class="edd-booking-wizard">
-    <form-wizard :title="_('Book an Appointment')"
+    <form-wizard :title="getLabel('general.title')"
                  subtitle=""
-                 :nextButtonText="_('Next')"
-                 :backButtonText="_('Back')"
+                 :nextButtonText="getLabel('general.buttons.next')"
+                 :backButtonText="getLabel('general.buttons.back')"
                  :finishButtonText="_('Finish')"
                  @on-change="onStepChange"
                  ref="wizard"
@@ -22,9 +22,7 @@
         <template slot="footer" scope="{activeTabIndex, prevTab, isLastStep, nextTab, fillButtonStyle}">
             <div class="wizard-footer-left" v-if="!config.service && service && activeTabIndex === 0">
                 <div>{{ serviceInfo.pricePreview }}</div>
-                <div style="opacity: .6" v-if="serviceInfo.isOtherSessionsAvailable">
-                    {{ _('More appointment durations available in the next step.') }}
-                </div>
+                <div style="opacity: .6" v-if="serviceInfo.isOtherSessionsAvailable" v-html="getLabel('preview.available')"></div>
             </div>
 
             <div class="wizard-footer-clear" style="color: red" v-if="errorMessage">
@@ -36,7 +34,7 @@
                                @click.native="prevTab()"
                                class="wizard-footer-back"
                                :style="fillButtonStyle">
-                    {{ _('Back') }}
+                    {{ getLabel('general.buttons.back') }}
                 </wizard-button>
 
                 <wizard-button @click.native="isLastStep ? createBooking() : nextTab()"
@@ -44,7 +42,7 @@
                                :style="fillButtonStyle"
                                :disabled="isCreatingBooking ? 'disabled' : false"
                 >
-                    <span v-if="!isCreatingBooking">{{ isLastStep ? _('Book Now') : _('Next') }}</span>
+                    <span v-if="!isCreatingBooking">{{ isLastStep ? getLabel('general.buttons.book') : getLabel('general.buttons.next') }}</span>
                     <template v-if="isCreatingBooking">
                         <span>&nbsp;</span>
                         <span class="eddbk-loading-inline eddbk-loading-inline--clean"></span>
