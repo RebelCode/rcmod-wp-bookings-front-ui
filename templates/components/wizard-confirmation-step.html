@@ -1,18 +1,18 @@
 <script type="text/x-template" id="eddbk-confirmation-step-template">
     <div v-if="service && appointment">
         <div class="edd-booking-wizard__info">
-            <p v-html="_('You are booking: <strong>%s</strong> - %s appointment', [appointment.service, appointment.duration])"></p>
-            <p v-html="_('Starting at <strong>%s</strong>', [appointment.start])"></p>
-            <p style="margin-bottom: 0" v-html="_('The price is of <strong>%s</strong>', [appointment.price])"></p>
+            <p v-html="getLabel('confirmation.booking', [appointment.service, appointment.duration])"></p>
+            <p v-html="getLabel('confirmation.starting', [appointment.start])"></p>
+            <p style="margin-bottom: 0" v-html="getLabel('confirmation.price', [appointment.price])"></p>
         </div>
 
         <div class="inline-form-control">
-            <label>{{ _('Additional notes') }}</label>
+            <label>{{ getLabel('fields.notes.title') }}</label>
             <textarea
                     rows="4"
                     v-model="notes"
                     class="eddb-control"
-                    :placeholder="_('If you have got any special requests for this service, please note them down here.')"
+                    :placeholder="getLabel('fields.notes.placeholder')"
             ></textarea>
         </div>
     </div>

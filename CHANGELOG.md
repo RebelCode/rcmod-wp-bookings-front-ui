@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Added
+- Preparing and sending wizard labels map as state variable.
+
+### Changed
+- Using version `0.2.3` of `booking-wizard`
 
 ## [0.1-alpha16] - 2018-09-24
 ### Changed

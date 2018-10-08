@@ -1,7 +1,7 @@
 <script type="text/x-template" id="service-session-selector-template">
     <div>
         <div class="inline-form-control">
-            <label>{{ 'Select duration' }}</label>
+            <label>{{ getLabel('fields.duration.title') }}</label>
             <session-duration-picker
                     v-model="sessionDuration"
                     :service="service"
@@ -9,7 +9,7 @@
         </div>
         <div class="inline-form-control">
             <label>
-                {{ 'Select a date' }}
+                {{ getLabel('fields.date.title') }}
                 <span class="eddbk-loading-inline" v-if="isSessionsLoading" style="margin-left: 3px"></span>
             </label>
             <session-date-picker
@@ -28,7 +28,7 @@
             ></session-date-picker>
         </div>
         <div class="inline-form-control" v-if="!isDailyDuration">
-            <label>{{ 'Select available time' }}</label>
+            <label>{{ getLabel('fields.time.title') }}</label>
             <div class="eddb-control eddb-control-appointment" v-if="selectedDay">
                 <date-navigator
                         :selected-day.sync="selectedDay"
@@ -45,7 +45,7 @@
                 ></session-time-picker>
             </div>
             <div class="eddb-control-info" v-else>
-                {{ 'Select a date to pick a time from.' }}
+                {{ getLabel('fields.time.placeholder') }}
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
 <script type="text/x-template" id="session-date-picker-template">
     <div :class="loading ? 'eddbk-disabled' : ''">
         <div class="edd-booking-wizard__info edd-booking-wizard__info--inline" v-if="!loading && !availableSessions.length">
-            {{ 'No appointments are available this month.' }}
+            {{ getLabel('fields.date.empty') }}
         </div>
         <datepicker v-model="selectedDayProxy"
                     :inline="true"
