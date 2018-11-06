@@ -3,7 +3,7 @@
         <div class="inline-form-control">
             <label>{{ getLabel('fields.duration.title') }}</label>
             <session-duration-picker
-                    v-model="sessionDuration"
+                    v-model="sessionType"
                     :service="service"
             ></session-duration-picker>
         </div>
@@ -20,7 +20,7 @@
                     :opened-on-date.sync="openedOnDate"
                     :session.sync="session"
                     :loading="isSessionsLoading"
-                    :selected-session-length="sessionDuration"
+                    :selected-session-type="sessionType"
                     :available-sessions="sessions"
                     :prev-available-day.sync="prevAvailableDay"
                     :next-available-day.sync="nextAvailableDay"
@@ -38,7 +38,7 @@
                 ></date-navigator>
                 <session-time-picker v-model="session"
                                      :selected-day.sync="selectedDay"
-                                     :selected-session-length="sessionDuration"
+                                     :selected-session-type="sessionType"
                                      :service="service"
                                      :timezone="timezone"
                                      :sessions="selectedDaySessions"
@@ -91,8 +91,8 @@
 <script type="text/x-template" id="session-duration-picker-template">
     <div>
         <select v-model="valueProxy" class="eddb-control">
-            <option :value="sessionLength" v-for="sessionLength in service.sessionLengths">
-                {{ sessionLengthLabel(sessionLength) }}
+            <option :value="sessionType" v-for="sessionType in service.sessionTypes">
+                {{ sessionTypeLabel(sessionType) }}
             </option>
         </select>
     </div>
