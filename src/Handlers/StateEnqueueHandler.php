@@ -165,6 +165,7 @@ class StateEnqueueHandler implements InvocableInterface
             'initialBookingTransition' => $this->initialBookingTransition,
             'datetimeFormats'          => $this->_normalizeArray($this->datetimeFormats),
             'applicationLabels'        => $this->_getApplicationLabels(),
+            'fields'                   => $this->_getFilterFields(),
         ]);
     }
 
@@ -198,5 +199,17 @@ class StateEnqueueHandler implements InvocableInterface
     protected function _getApplicationLabels()
     {
         return $this->_trigger('eddbk_front_application_labels')->getParam('labels');
+    }
+
+    /**
+     * Get list of the ordered filter fields for the wizard.
+     *
+     * @since [*next-version*]
+     *
+     * @return array Fields for the wizard.
+     */
+    protected function _getFilterFields()
+    {
+        return $this->_trigger('eddbk_front_application_filter_fields')->getParam('fields');
     }
 }

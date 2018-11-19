@@ -1,11 +1,14 @@
 <script type="text/x-template" id="service-session-selector-template">
     <div>
-        <div class="inline-form-control">
-            <label>{{ getLabel('fields.duration.title') }}</label>
-            <session-duration-picker
-                    v-model="sessionType"
-                    :service="service"
-            ></session-duration-picker>
+        <div class="inline-form-control" v-for="filterKey of filters" v-if="hasFilterValues(filterKey)">
+            <label>{{ getLabel('fields.' + filterKey + '.title') }}</label>
+            <div>
+                <select v-model="filter[filterKey]" class="eddb-control">
+                    <option :value="value" v-for="(label, value) of getFilterValues(filterKey)">
+                        {{ label }}
+                    </option>
+                </select>
+            </div>
         </div>
         <div class="inline-form-control">
             <label>
@@ -20,8 +23,7 @@
                     :opened-on-date.sync="openedOnDate"
                     :session.sync="session"
                     :loading="isSessionsLoading"
-                    :selected-session-type="sessionType"
-                    :available-sessions="sessions"
+                    :available-sessions="filteredSessions"
                     :prev-available-day.sync="prevAvailableDay"
                     :next-available-day.sync="nextAvailableDay"
                     @changedMonth="loadSessions"
@@ -38,7 +40,6 @@
                 ></date-navigator>
                 <session-time-picker v-model="session"
                                      :selected-day.sync="selectedDay"
-                                     :selected-session-type="sessionType"
                                      :service="service"
                                      :timezone="timezone"
                                      :sessions="selectedDaySessions"
@@ -85,15 +86,5 @@
         <span class="eddbk-nav-button eddbk-nav-button__prev" @click="goToPrevDay" :class="!prevAvailableDay ? 'disabled' : ''"></span>
         <span>{{ selectedDaySessionsLabel }}</span>
         <span class="eddbk-nav-button eddbk-nav-button__next" @click="goToNextDay" :class="!nextAvailableDay ? 'disabled' : ''"></span>
-    </div>
-</script>
-
-<script type="text/x-template" id="session-duration-picker-template">
-    <div>
-        <select v-model="valueProxy" class="eddb-control">
-            <option :value="sessionType" v-for="sessionType in service.sessionTypes">
-                {{ sessionTypeLabel(sessionType) }}
-            </option>
-        </select>
     </div>
 </script>
