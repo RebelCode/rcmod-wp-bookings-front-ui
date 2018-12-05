@@ -16,6 +16,12 @@
                 </div>
             </template>
         </div>
-        <service-session-selector :service="service" :timezone="timezone" v-model="valueProxy"></service-session-selector>
+        <service-session-selector
+                :filters="state.fields"
+                :service="service"
+                :timezone="timezone"
+                v-model="valueProxy"
+                @exposed="updateFilterValues"
+        ></service-session-selector>
     </div>
 </script>
